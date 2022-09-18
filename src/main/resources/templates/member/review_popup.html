@@ -1,0 +1,141 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>GREAT 리뷰작성</title>
+        <link rel="stylesheet" href="/common/common.css" />
+        <link rel="stylesheet" href="/member/css/review_popup.css" />
+    </head>
+    <body>
+        <main class="main-reivew">
+        <h1 class="title">리뷰 작성</h1>
+        <form class="review">
+            <fieldset>
+            <span class="text-bold">별점을 선택해주세요</span>
+            <input type="radio" name="reviewStar" value="5" id="rate1" /><label
+                for="rate1"
+                >★</label
+            >
+            <input type="radio" name="reviewStar" value="4" id="rate2" /><label
+                for="rate2"
+                >★</label
+            >
+            <input type="radio" name="reviewStar" value="3" id="rate3" /><label
+                for="rate3"
+                >★</label
+            >
+            <input type="radio" name="reviewStar" value="2" id="rate4" /><label
+                for="rate4"
+                >★</label
+            >
+            <input type="radio" name="reviewStar" value="1" id="rate5" /><label
+                for="rate5"
+                >★</label
+            >
+            </fieldset>
+            <!-- <textarea
+                class="reviewContents"
+                type="text"
+                placeholder="리뷰를 작성해 주세요~!">
+            </textarea> -->
+            <div id="edit" contenteditable="true">
+                
+                <!-- <img id="preview-image" src=""> -->
+            </div>
+            <input type="file" id="input-image" multiple >
+            <div class="btn btnReview" onclick="window.close()" ><a href="#">작성 완료</a>
+        
+        </form>
+        </main>
+        <script>
+        const $btn = document.querySelector('.btn');
+        $btn.addEventListener('click', (e)=>{
+            const $write = opener.document.querySelector('.review--write');
+            
+            $write.textContent='작성완료';
+            $write.classList.remove('review--write');
+        });
+
+        $btn.addEventListener('click',()=>{
+            const $reviewText = opener.document.querySelector('.review-update');
+                
+            $reviewText.classList.remove('review-update');
+            $reviewText.textContent = edit.textContent;
+         
+            
+        });
+
+            // function readImage(input){
+            // 	if(input.files && input.files[0]) {
+            // 		const reader = new FileReader()
+
+            // 		reader.onload = e => {
+            //     const previewImage = document.getElementById("preview-image")
+            //     previewImage.src = e.target.result
+            // }
+            // // reader가 이미지 읽도록 하기
+            // reader.readAsDataURL(input.files[0])
+            // 	}
+            // }
+
+
+        //   const $input = document.getElementById('input-image');
+        //   $input.addEventListener('change', e=> readImage(e.target));
+
+        function readMultipleImage(input) {
+            const $multiple = document.getElementById('edit')
+
+            if(input.files) {
+                console.log(input.files)
+
+                const fileArr = Array.from(input.files)
+
+                const $colDiv1 = document.createElement('div')
+                const $colDiv2 = document.createElement('div')
+                $colDiv1.classList.add('column')
+                $colDiv2.classList.add('column')
+
+                fileArr.forEach((file,index) => {
+                    const reader = new FileReader()
+
+                    const $imgDiv = document.createElement('div')
+                    const $img = document.createElement('img')
+                    $img.classList.add('image')
+
+                    // const $label = document.createElement('label')
+                    // $label.classList.add('image-label')
+                    // $label.textContent = file.name
+
+                    $imgDiv.appendChild($img)
+                    // $imgDiv.appendChild($label)
+
+                    reader.onload = e => {
+                        $img.src = e.target.result
+
+                        $imgDiv.style.width = ($img.naturalWidth) 
+                        $imgDiv.style.height = ($img.naturalHeight) 
+                    }
+
+                    console.log(file.name)
+                    if(index % 2==0){
+                        $colDiv1.appendChild($imgDiv)
+                    }else {
+                        $colDiv2.appendChild($imgDiv)
+                    }
+
+                    reader.readAsDataURL(file)
+                })
+                $multiple.appendChild($colDiv1)
+                $multiple.appendChild($colDiv2)
+            }
+        }
+
+        const inputMultipleImage = document.getElementById('input-image')
+        inputMultipleImage.addEventListener('change',e=> {
+            readMultipleImage(e.target)
+        })
+        </script>
+    </body>
+    </html>

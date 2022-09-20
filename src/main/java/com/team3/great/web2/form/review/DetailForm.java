@@ -1,4 +1,4 @@
-package com.team3.great.web2.form;
+package com.team3.great.web2.form.review;
 
 import lombok.Data;
 

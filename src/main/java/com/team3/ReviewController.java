@@ -3,8 +3,8 @@ package com.team3;
 
 import com.team3.great.Review;
 import com.team3.great.svc.ReviewSVC;
-import com.team3.great.web2.form.InfoForm;
-import com.team3.great.web2.form.SaveForm;
+import com.team3.great.web2.form.review.InfoForm;
+import com.team3.great.web2.form.review.SaveForm;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;

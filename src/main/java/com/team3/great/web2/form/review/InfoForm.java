@@ -1,4 +1,4 @@
-package com.team3.great.web2.form;
+package com.team3.great.web2.form.review;
 
 import lombok.Data;
 
@@ -11,5 +11,6 @@ public class InfoForm {
     private String content;
     private Long grade;
     private LocalDateTime writeDate;
+    private Long profileNumber;
 
 }

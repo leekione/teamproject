@@ -15,8 +15,11 @@ public class Review {
     private LocalDateTime writeDate;
     private Long grade;
     private Long profile_number;
+    private Member member;
 
-            //    SELLER_NUMBER	NUMBER(6,0)	Yes		3
+
+
+    //    SELLER_NUMBER	NUMBER(6,0)	Yes		3
             //    CONTENT	VARCHAR2(150 BYTE)	Yes		4
             //    WRITE_DATE	DATE	Yes		5
             //    GRADE	NUMBER(5,0)	Yes		6

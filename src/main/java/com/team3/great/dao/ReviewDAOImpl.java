@@ -1,6 +1,7 @@
 package com.team3.great.dao;
 
 
+import com.team3.great.Member;
 import com.team3.great.Review;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,12 +9,14 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
@@ -52,13 +55,33 @@ public class ReviewDAOImpl implements ReviewDAO{
     @Override
     public List<Review> findAll() {
         StringBuffer sql = new StringBuffer();
-        sql.append("select mem_name, content, write_date,grade,buyer_number ");
+        sql.append("select mem_name, content,write_date,grade,buyer_number ");
         sql.append(" from review , member ");
         sql.append(" where buyer_number = mem_number ");
         sql.append(" and buyer_number = 1 ");
 
-        List<Review> reviews = jt.query(sql.toString(),new BeanPropertyRowMapper<>(Review.class));
-
+//        List<Review> reviews = jt.query(sql.toString(),new BeanPropertyRowMapper<>(Review.class));
+//        List<Review>  reviews = jt.query(sql.toString(), new RowMapper<Review>() {
+//            @Override
+//            public Review mapRow(ResultSet rs, int rowNum) throws SQLException {
+//                Review review = new Review();
+//                review.getMember().setMemName(rs.getString("mem_name"));
+//                review.setContent(rs.getString("content"));
+//                review.setWriteDate(rs.getTimestamp("write_date").toLocalDateTime());
+//                review.setGrade(rs.getLong("grade"));
+//                review.setBuyerNumber(rs.getLong("buyer_number"));
+//                return review;
+//            }
+//        });
+        List<Review>  reviews = jt.query(sql.toString(), new RowMapper<Review>() {
+            @Override
+            public Review mapRow(ResultSet rs, int rowNum) throws SQLException {
+                Member member = (new BeanPropertyRowMapper<>(Member.class)).mapRow(rs,rowNum);
+                Review review = (new BeanPropertyRowMapper<>(Review.class)).mapRow(rs,rowNum);
+                review.setMember(member);
+                return review;
+            }
+        });
         return reviews;
     }
 

@@ -127,8 +127,9 @@
 <!--                    </li>-->
                     <li class="review" th:object="${form}"th:each="review:${list}">
                         <div >
-                            <div th:text="${review.reviewNumber}">리뷰번호</div>
-                            <div th:text="${review.buyerNumber}">리뷰번호</div>
+                            <div th:text="${review.reviewNumber}"></div>
+                            <div th:text="${review.buyerNumber}"></div>
+                            <div th:text="${review.member.memName}"></div>
                             <div th:text="${review.content}"></div>
                             <div th:text="${review.grade}"></div>
                             <div th:text="${review.writeDate}"></div>

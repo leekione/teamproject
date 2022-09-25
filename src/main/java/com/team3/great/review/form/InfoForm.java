@@ -1,5 +1,7 @@
-package com.team3.great.web2.form.review;
+package com.team3.great.review.form;
 
+
+import com.team3.great.Member;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -12,5 +14,6 @@ public class InfoForm {
     private Long grade;
     private LocalDateTime writeDate;
     private Long profileNumber;
+    private Member member;
 
 }

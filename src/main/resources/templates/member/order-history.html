@@ -1,11 +1,12 @@
         <!DOCTYPE html>
-        <html lang="ko">
+        <html lang="ko"
+              xmlns:th="http://www.thymeleaf.org">
         <head>
             <meta charset="UTF-8" />
             <meta http-equiv="X-UA-Compatible" content="IE=edge" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-            <link rel="stylesheet" href="/common/common.css" />
-            <link rel="stylesheet" href="/member/css/order-history.css" />
+            <link rel="stylesheet" href="/css/common/common.css"/>
+            <link rel="stylesheet" href="/member/css/order-history.css"/>
             <script
             src="https://kit.fontawesome.com/038578f405.js"
             crossorigin="anonymous"
@@ -54,20 +55,24 @@
                     <ul>
                         <li class="aside-content-menu">
                             <h3>
-                                <a href="myReview.html">내 리뷰</a></li>
+                                <a href="myReview.html">내 리뷰</a>
                             </h3>
+                        </li>
                         <li class="aside-content-menu">
                             <h3>
-                                <a href="order-history.html">주문내역</a></li>
+                                <a href="order-history.html">주문내역</a>
                             </h3>
+                        </li>
                         <li class="aside-content-menu">
                             <h3>
-                                <a href="bookmark.html">즐겨찾기</a></li>
+                                <a href="bookmark.html">즐겨찾기</a>
                             </h3>
+                        </li>
                         <li class="aside-content-menu">
                             <h3>
-                                <a href="good.html">좋아요</a></li>
+                                <a href="good.html">좋아요</a>
                             </h3>
+                        </li>
                         </ul>
                 </aside>
                 
@@ -78,7 +83,7 @@
                             <h2>주문 내역</h2>
                         </div>
                     </div>
-                <table class="order-history--table">
+                <table class="order-history--table" th:object="${form}">
                     <thead>
                     <tr>
                         <th>주문번호</th>
@@ -94,71 +99,23 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>c15715</td>
-                        <td>2022.07.07</td>
-                        <td>가게1</td>
-                        <td>참치김밥</td>
-                        <td>3</td>
-                        <td>6,000원</td>
-                        <td>17:20</td>
-                        <td>온라인 결제</td>
+                    <tr th:each="order : ${list}">
+                        <td th:text="${order.orderNumber}">c15715</td>
+                        <td th:text="${#dates.format(order.orderdate, 'yyyy-MM-dd HH:mm')}">2022.07.07</td>
+                        <td th:text="${order.member.memStoreName}">가게1</td>
+                        <td th:text="${order.product.pName}">참치김밥</td>
+                        <td th:text="${order.pCount}">3</td>
+                        <td th:text="${order.price}">6,000원</td>
+                        <td th:text="${#strings.substring(order.visittime,0,16)}">17:20</td>
+                        <th:block th:switch="${order.buyType}">
+                            <td th:case="0" th:text="온라인결제"></td>
+                            <td th:case="1" th:text="오프라인결제"></td>
+                        </th:block>
                         <td>
                         <a href="#" class="write">작성하기</a>
                         </td>
                         <td>
                         <a href="#" class="order-status">취소하기</a></td>
-                    </tr>
-                    <tr>
-                        <td>c17156</td>
-                        <td>2022.07.01</td>
-                        <td>가게1</td>
-                        <td>샌드위치</td>
-                        <td>1</td>
-                        <td>10,000원</td>
-                        <td>18:00</td>
-                        <td>현장 결제</td>
-                        <td>
-                        <a href="#" class="write">작성하기</a>
-                        </td>
-                        <td>
-                        <a href="#" class="order-status">취소하기</a></td>
-                    </tr>
-                    <tr>
-                        <td>c16101</td>
-                        <td>2022.06.30</td>
-                        <td>가게1</td>
-                        <td>카스테라</td>
-                        <td>2</td>
-                        <td>7,000원</td>
-                        <td>18:00</td>
-                        <td>온라인 결제</td>
-                        <td>작성완료</td>
-                        <td>구매완료</td>
-                    </tr>
-                    <tr>
-                        <td>c18160</td>
-                        <td>2022.06.25</td>
-                        <td>가게1</td>
-                        <td>수제 햄버거</td>
-                        <td>1</td>
-                        <td>6,500원</td>
-                        <td>17:40</td>
-                        <td>현장 결제</td>
-                        <td>작성완료</td>
-                        <td>구매완료</td>
-                    </tr>
-                    <tr>
-                        <td>c12103</td>
-                        <td>2022.06.15</td>
-                        <td>가게1</td>
-                        <td>땡초김밥</td>
-                        <td>2</td>
-                        <td>4,000원</td>
-                        <td>18:20</td>
-                        <td>온라인 결제</td>
-                        <td>작성완료</td>
-                        <td>구매완료</td>
                     </tr>
                     </tbody>
                 </table>

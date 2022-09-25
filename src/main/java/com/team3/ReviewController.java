@@ -1,10 +1,10 @@
 package com.team3;
 
 
-import com.team3.great.Review;
-import com.team3.great.svc.ReviewSVC;
-import com.team3.great.web2.form.review.InfoForm;
-import com.team3.great.web2.form.review.SaveForm;
+import com.team3.great.review.dao.Review;
+import com.team3.great.review.form.InfoForm;
+import com.team3.great.review.form.SaveForm;
+import com.team3.great.review.svc.ReviewSVC;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -51,7 +51,7 @@ public class ReviewController {
     //목록
     @GetMapping("/all")
     public String findAll(Model model) {
-    List<Review> reviews = reviewSVC.findAll();
+        List<Review> reviews = reviewSVC.findAll();
 
         List<Review> list = new ArrayList<>();
         reviews.stream().forEach(review -> {

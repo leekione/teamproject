@@ -1,8 +1,7 @@
-package com.team3.great.dao;
+package com.team3.great.review.dao;
 
 
 import com.team3.great.Member;
-import com.team3.great.Review;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -24,7 +23,7 @@ import java.util.Optional;
 @Slf4j
 @Repository
 @RequiredArgsConstructor
-public class ReviewDAOImpl implements ReviewDAO{
+public class ReviewDAOImpl implements ReviewDAO {
 
     private final JdbcTemplate jt;
 

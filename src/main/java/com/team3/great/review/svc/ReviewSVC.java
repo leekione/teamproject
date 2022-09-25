@@ -1,7 +1,7 @@
-package com.team3.great.svc;
+package com.team3.great.review.svc;
 
 
-import com.team3.great.Review;
+import com.team3.great.review.dao.Review;
 
 import java.util.List;
 import java.util.Optional;

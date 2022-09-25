@@ -1,15 +1,11 @@
-package com.team3.great.web2.form.review;
+package com.team3.great.review.form;
 
 import lombok.Data;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
+import javax.validation.constraints.*;
 
 @Data
-public class UpdateForm {
-    private Long productId;
+public class SaveForm {
     @NotBlank
     private String pname;     //  PNAME	VARCHAR2(30 BYTE)
     @NotNull

@@ -1,7 +1,5 @@
-package com.team3.great.dao;
+package com.team3.great.review.dao;
 
-
-import com.team3.great.Review;
 
 import java.util.List;
 import java.util.Optional;

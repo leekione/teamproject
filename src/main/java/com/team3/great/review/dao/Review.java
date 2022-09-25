@@ -1,5 +1,6 @@
-package com.team3.great;
+package com.team3.great.review.dao;
 
+import com.team3.great.Member;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,7 +15,7 @@ public class Review {
     private String content;
     private LocalDateTime writeDate;
     private Long grade;
-    private Long profile_number;
+    private Long profileNumber;
     private Member member;
 
 

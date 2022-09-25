@@ -56,7 +56,7 @@
 
       <main class="main container">
         <h2>주문결제</h2>
-        <main class="main__content">
+        <form class="main__content" method="post" th:object="${form}">
           <div class="order__item">
             
               <h3>주문 상품</h3>
@@ -71,24 +71,20 @@
                 </div>
               </div>
               <div class="item-text">
-                <p><label for="">상품명 </label><input type="text" value="카스테라" readonly /></p>
-                <p><label for="">가격 </label><input type="text" value="3000" id="price" readonly/></p>
-                <p><label for="">수량 </label><input type="number" id="quantity" min="1"/></p>
-                <p><label for="">픽업시간 </label><input type="datetime-local" id="datetime" onchange="setMinvalue()"/></p>
-                <p><label for="">총 결제금액</label><input type="text" id="totalprice" readonly /></p>
+                <p><label for="" >상품명 </label><input  type="text" value="카스테라" readonly/></p>
+                <p><label for="" >가격 </label><input type="text" value="3000" id="onePrice"  readonly/></p>
+                <p><label for="">수량 </label><input  th:field="*{pCount}" type="number"min="1"/></p>
+                <p><label for="">픽업시간 </label><input th:field="*{visittime}" type="datetime-local"  onchange="setMinvalue()"/></p>
+                <p><label for="">총 결제금액</label><input th:field="*{price}" type="text"  readonly /></p>
               </div>
             
           </div>
           <div class="buy-choice">
             <h3>결제 방식</h3>
-            <div class="buy-content">
-              
-                <input type="radio" name="buy" id="online" checked /><label for="online">온라인 결제</label>
-                <input type="radio" name="buy" id="offline" /><label for="offline">현장 결제</label>
-              
-
+            <div class="buy-content" >
+                <input type="radio" name="buyType" id="online" value="0 "checked /><label for="online">온라인 결제</label>
+                <input type="radio" name="buyType" id="offline" value="1" /><label for="offline">현장 결제</label>
               <div class="buy-online">
-                
                   <label for="">카드사</label>
                   <select name="" id="" class="sel-card">
                     <option value="" hidden>==선택==</option>
@@ -116,15 +112,15 @@
             
             </div>
           </div>
-        </main>
+        </form>
       </main>
       <footer class="footer container"><p class="content"></p></footer>
     </div>
     <script>
-      quantity.addEventListener('click',e=>{
-        totalprice.value=price.value*quantity.value;
+      pCount.addEventListener('click',e=>{
+        price.value=onePrice.value*pCount.value;
       });
-      let $datetime = document.getElementById('datetime');
+      let $datetime = document.getElementById('visittime');
       let date = new Date(new Date().getTime()-new Date().getTimezoneOffset() * 60000).toISOString().slice(0,-5);
         $datetime.value = date;
         $datetime.setAttribute("min",date);
@@ -137,7 +133,7 @@
         }
 
         const $btn = document.querySelectorAll('.btnbuy');
-       
+
         $btn.forEach((ele,idx)=>{
             $btn[idx].addEventListener('click',()=>{
                 if(confirm('구매하시겠습니까')){

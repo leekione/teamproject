@@ -1,7 +1,7 @@
-package com.team3.great.svc;
+package com.team3.great.review.svc;
 
-import com.team3.great.Review;
-import com.team3.great.dao.ReviewDAO;
+import com.team3.great.review.dao.Review;
+import com.team3.great.review.dao.ReviewDAO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

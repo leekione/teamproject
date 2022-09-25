@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/common/common.css" />
-    <link rel="stylesheet" href="./buy/css/buy-complete.css">
+    <link rel="stylesheet" href="/css/common/common.css" />
+    <link rel="stylesheet" href="/buy/css/buy-complete.css">
     <title>주문완료</title>
 </head>
 <body>
@@ -43,7 +44,7 @@
         </header>
         <!-- //header -->
 
-        <div class="buy-complete--container">
+        <div class="buy-complete--container" th:object="${form}">
             <h1>주문 완료!</h1>
 
             <div>
@@ -51,10 +52,10 @@
                     <h2>주문내역</h2>
                     <div class="buy--text">
                         <p>
-                            <span>주문번호</span><label for="">c15715</label>
+                            <span>주문번호</span><label for="" >c15715</label>
                         </p>
                         <p>
-                            <span>가게주소</span><label for="">울산동구</label>
+                            <span>가게주소</span><label for="" >울산동구</label>
                         </p>
                         <p>
                            <span>주문상품</span><label for="">카스테라</label>

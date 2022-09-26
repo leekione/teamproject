@@ -71,7 +71,7 @@ public class ProductDAOImpl implements ProductDAO{
         StringBuffer sql = new StringBuffer();
         sql.append("select  *  ");
         sql.append("from product_info P, member M ");
-        sql.append("where p.owner_number = m.mem_number and p.p_number=? ");
+        sql.append("where p.owner_number = m.mem_number and p.p_number= ? ");
 
         Product product = null;
 

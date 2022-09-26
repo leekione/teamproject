@@ -10,6 +10,7 @@ th {
 }
 th, td {
    border-bottom: 1px solid rgb(80,80,80,0.4);
+   font-size: 14px;
    box-sizing: content-box;
 }
 td {

@@ -31,15 +31,14 @@ public class DealController {
     @GetMapping("/add/{pNumber}")
     public String addForm(@PathVariable("pNumber") Long pNumber,Model model){
 
-        Product findedProduct = productSVC.findByProductNum(pNumber);
 
         AddForm addForm = new AddForm();
-
-        BeanUtils.copyProperties(addForm,findedProduct);
+        Product findedProduct = productSVC.findByProductNum(pNumber);
+        BeanUtils.copyProperties(findedProduct,addForm);
 
         model.addAttribute("form", addForm);
-
-
+        log.info("form={}",addForm);
+        log.info("findedProduct={}",findedProduct);
         return "buy/buy-online";
     }
 
@@ -48,10 +47,10 @@ public class DealController {
     public String add(@PathVariable("pNumber") Long pNumber,
             @ModelAttribute("form") AddForm addForm, RedirectAttributes redirectAttributes){
         Deal deal = new Deal();
-        Product product = new Product();
+
         BeanUtils.copyProperties(addForm, deal);
         dealSVC.add(deal);
-        log.info("deal={}", deal);
+
 
         Product findedProduct = productSVC.findByProductNum(pNumber);
 
@@ -78,12 +77,12 @@ public class DealController {
         Optional<Deal> byOrderNumber = dealSVC.findByOrderNumber(orderNumber);
         Product byProductNum = productSVC.findByProductNum(pNumber);
         InfoForm infoForm = new InfoForm();
-        log.info("infoForm={}",infoForm);
+
 
         if(!byOrderNumber.isEmpty()){
             BeanUtils.copyProperties(byOrderNumber.get(),infoForm);
             BeanUtils.copyProperties(byProductNum,infoForm);
-            log.info("infoForm={}",infoForm);
+
 
         }
 

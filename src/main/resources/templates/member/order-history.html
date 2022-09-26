@@ -169,13 +169,13 @@
                     $write[i].classList.add('review--write');
                     if($write[i].textContent == '작성하기'){
                         const popup = window.open(
-                        'review_popup.html',
+                        '/reviews/add',
                         'a',
                         'width=600px,height=700px,left=500,top=50')
                     }else{
                         alert('작성완료된 리뷰입니다.');
                         $write[i].classList.remove('review--write');
-                    }             
+                    }
                     })
                 };
 

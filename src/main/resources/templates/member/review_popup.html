@@ -1,11 +1,12 @@
     <!DOCTYPE html>
-    <html lang="en">
+    <html lang="ko"
+          xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>GREAT 리뷰작성</title>
-        <link rel="stylesheet" href="/common/common.css" />
+        <link rel="stylesheet" href="/css/common/common.css" />
         <link rel="stylesheet" href="/member/css/review_popup.css" />
     </head>
     <body>
@@ -45,7 +46,7 @@
                 <!-- <img id="preview-image" src=""> -->
             </div>
             <input type="file" id="input-image" multiple >
-            <div class="btn btnReview" onclick="window.close()" ><a href="#">작성 완료</a>
+            <div class="btn btnReview" onclick="window.close()"><a href="#">작성 완료</a></div>
         
         </form>
         </main>
@@ -67,75 +68,7 @@
             
         });
 
-            // function readImage(input){
-            // 	if(input.files && input.files[0]) {
-            // 		const reader = new FileReader()
 
-            // 		reader.onload = e => {
-            //     const previewImage = document.getElementById("preview-image")
-            //     previewImage.src = e.target.result
-            // }
-            // // reader가 이미지 읽도록 하기
-            // reader.readAsDataURL(input.files[0])
-            // 	}
-            // }
-
-
-        //   const $input = document.getElementById('input-image');
-        //   $input.addEventListener('change', e=> readImage(e.target));
-
-        function readMultipleImage(input) {
-            const $multiple = document.getElementById('edit')
-
-            if(input.files) {
-                console.log(input.files)
-
-                const fileArr = Array.from(input.files)
-
-                const $colDiv1 = document.createElement('div')
-                const $colDiv2 = document.createElement('div')
-                $colDiv1.classList.add('column')
-                $colDiv2.classList.add('column')
-
-                fileArr.forEach((file,index) => {
-                    const reader = new FileReader()
-
-                    const $imgDiv = document.createElement('div')
-                    const $img = document.createElement('img')
-                    $img.classList.add('image')
-
-                    // const $label = document.createElement('label')
-                    // $label.classList.add('image-label')
-                    // $label.textContent = file.name
-
-                    $imgDiv.appendChild($img)
-                    // $imgDiv.appendChild($label)
-
-                    reader.onload = e => {
-                        $img.src = e.target.result
-
-                        $imgDiv.style.width = ($img.naturalWidth) 
-                        $imgDiv.style.height = ($img.naturalHeight) 
-                    }
-
-                    console.log(file.name)
-                    if(index % 2==0){
-                        $colDiv1.appendChild($imgDiv)
-                    }else {
-                        $colDiv2.appendChild($imgDiv)
-                    }
-
-                    reader.readAsDataURL(file)
-                })
-                $multiple.appendChild($colDiv1)
-                $multiple.appendChild($colDiv2)
-            }
-        }
-
-        const inputMultipleImage = document.getElementById('input-image')
-        inputMultipleImage.addEventListener('change',e=> {
-            readMultipleImage(e.target)
-        })
         </script>
     </body>
     </html>

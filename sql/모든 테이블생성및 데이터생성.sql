@@ -218,28 +218,34 @@ insert into good values ('1','1',0001);
 insert into good values ('2','1',0002);
 
 --즐겨찾기데이터 생성
---insert into bookmark values ('1','1','1');
+insert into bookmark values ('1','1','1');
 update product_infO
-  set remain_count = 3-2
+  set remain_count = 20
   where p_number = 1;
-  rollback;
+--  rollback;
 commit;
 select p_name, remain_count
 from product_info;
 select * from product_info; 
 select * from deal;
-delete from deal;   
+--delete from deal;   
 select * 
  from deal d, member m, product_info p1
  where d.buyer_number = m.mem_number 
  and d.p_number = p1.p_number
  and d.buyer_number = 1;
  
- select d.order_number, m.mem_location, p.p_name, d.price, d.visittime,d.orderdate,m.mem_nickname
+ select d.order_number, m.mem_location,d.p_count, p.p_name, d.price, d.visittime,d.orderdate,m.mem_nickname
   from member m, deal d, product_info p
   where m.mem_number = d.buyer_number
    and p.p_number = d.p_number
-  and d.order_number= 83;
+  and d.order_number= 1;
+  
+select d.order_number, m.mem_location,d.p_count, p.p_name, d.price, d.visittime,d.orderdate,m.mem_nickname
+from member m, deal d, product_info p
+where m.mem_number = p.owner_number
+and p.p_number = d.p_number
+and d.order_number = 1;
  
 select *
 from member m, product_info p

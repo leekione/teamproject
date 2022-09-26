@@ -44,6 +44,8 @@ public class DealDAOImpl implements DealDAO{
             @Override
             public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
                 PreparedStatement pstmt = con.prepareStatement(sql.toString(),new String[]{"order_number"});
+//                pstmt.setLong(1,deal.getBuyerNumber());
+//                pstmt.setLong(2,deal.getSellerNumber());
                 pstmt.setLong(1,deal.getPNumber());
                 pstmt.setLong(2,deal.getPCount());
                 pstmt.setLong(3,deal.getPrice());
@@ -99,7 +101,7 @@ public class DealDAOImpl implements DealDAO{
 
         sql.append(" select d.order_number, m.mem_location,d.p_count, p.p_name, d.price, d.visittime,d.orderdate,m.mem_nickname ");
         sql.append(" from member m, deal d, product_info p ");
-        sql.append(" where m.mem_number = d.buyer_number ");
+        sql.append(" where m.mem_number = p.owner_number ");
         sql.append("  and p.p_number = d.p_number ");
         sql.append("  and d.order_number = ? ");
 

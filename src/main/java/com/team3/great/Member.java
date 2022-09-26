@@ -16,7 +16,7 @@ public class Member {
     private String memBusinessnumber;           //varchar2(10)
     private String memStoreName;                //varchar2(45)
     private String memStorePhonenumber;         //varchar2(15)
-    private String memStoreLocation;            //varchar2(150)
+    private String memLocation;            //varchar2(150)
     private String memStoreLatitude;            //varchar2(15, 9)
     private String memStoreLongitude;           //varchar2(15, 9)
     private String memStoreIntroduce;           //varchar2(150)

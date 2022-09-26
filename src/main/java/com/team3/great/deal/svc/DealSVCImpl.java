@@ -1,6 +1,5 @@
 package com.team3.great.deal.svc;
 
-import com.team3.great.Product;
 import com.team3.great.deal.dao.Deal;
 import com.team3.great.deal.dao.DealDAO;
 import lombok.RequiredArgsConstructor;
@@ -29,8 +28,8 @@ public class DealSVCImpl implements DealSVC{
     }
 
     @Override
-    public int update(Long pNumber,Product product) {
-        return dealDAO.update(pNumber,product);
+    public int update(Long pNumber,Deal deal) {
+        return dealDAO.update(pNumber,deal);
     }
 
     //상품조회

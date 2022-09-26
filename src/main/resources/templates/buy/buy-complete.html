@@ -44,36 +44,36 @@
         </header>
         <!-- //header -->
 
-        <div class="buy-complete--container" th:object="${form}">
+        <div class="buy-complete--container" >
             <h1>주문 완료!</h1>
 
             <div>
-                <div class="buy-complete--content">
+                <div class="buy-complete--content" th:object="${form}">
                     <h2>주문내역</h2>
                     <div class="buy--text">
                         <p>
-                            <span>주문번호</span><label for="" >c15715</label>
+                            <span>주문번호</span><label for="" th:text="*{orderNumber}">15715</label>
                         </p>
                         <p>
-                            <span>가게주소</span><label for="" >울산동구</label>
+                            <span>가게주소</span><label for="" th:text="*{member.memLocation}">울산동구</label>
                         </p>
                         <p>
-                           <span>주문상품</span><label for="">카스테라</label>
+                           <span>주문상품</span><label for="" th:text="*{product.pName}">카스테라</label>
                         </p>
                         <p>
-                           <span>주문수량</span><label for="">2</label>
+                           <span>주문수량</span><label for="" th:text="*{pCount}">2</label>
                         </p>
                         <p>
-                            <span>총금액</span><label for="">6000</label>
+                            <span>총금액</span><label for="" th:text="*{price}">6000</label>
                         </p>
                         <p>
-                            <span>픽업 예정시간</span><label for="">17:20</label>
+                            <span>픽업 예정시간</span><label for="" th:text="*{visittime}">17:20</label>
                         </p>
                         <p>
-                            <span>주문시간</span><label for="">14:30</label>
+                            <span>주문시간</span><label for="" th:text="*{orderdate}">14:30</label>
                         </p>
                         <p>
-                           <span>판매자정보</span><label for="">어피치</label>
+                           <span>판매자정보</span><label for="" >어피치</label>
                         </p>
                     </div>
                 </div>

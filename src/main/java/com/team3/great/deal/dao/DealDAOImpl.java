@@ -97,7 +97,7 @@ public class DealDAOImpl implements DealDAO{
     public Optional<Deal> findByOrderNumber(Long orderNumber) {
         StringBuffer sql = new StringBuffer();
 
-        sql.append(" select d.order_number, m.mem_location, p.p_name, d.price, d.visittime,d.orderdate,m.mem_nickname ");
+        sql.append(" select d.order_number, m.mem_location,d.p_count, p.p_name, d.price, d.visittime,d.orderdate,m.mem_nickname ");
         sql.append(" from member m, deal d, product_info p ");
         sql.append(" where m.mem_number = d.buyer_number ");
         sql.append("  and p.p_number = d.p_number ");
@@ -115,6 +115,7 @@ public class DealDAOImpl implements DealDAO{
                     return deal;
                 }
             },orderNumber);
+                    return Optional.of(deal);
         }catch (EmptyResultDataAccessException e){
             e.printStackTrace();
         }
@@ -123,13 +124,17 @@ public class DealDAOImpl implements DealDAO{
 
     //판매 테이블 수정
     @Override
-    public int update(Long pNumber,Product product) {
+    public int update(Long pNumber,Deal deal) {
         StringBuffer sql = new StringBuffer();
         sql.append("update product_info ");
-        sql.append("  set remain_count = ? ");
+        sql.append("  set remain_count = remain_count - ? ");
         sql.append(" where p_number = ? ");
-        Deal deal = jt.queryForObject(sql.toString(),new BeanPropertyRowMapper<>(Deal.class));
-        int affectedRow = jt.update(sql.toString(),product.getRemainCount()-deal.getPCount(),pNumber);
+
+
+
+        //Deal deal = jt.queryForObject(sql.toString(),new BeanPropertyRowMapper<>(Deal.class));
+        //log.info("deal={}",deal);
+        int affectedRow = jt.update(sql.toString(),deal.getPCount(),pNumber);
 
         return affectedRow;
     }

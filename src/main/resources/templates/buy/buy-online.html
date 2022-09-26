@@ -73,7 +73,7 @@
               <div class="item-text">
                 <p><label for="" >상품명 </label><input  type="text" value="카스테라" readonly/></p>
                 <p><label for="" >가격 </label><input type="text" value="3000" id="onePrice"  readonly/></p>
-                <p><label for="">수량 </label><input  th:field="*{pCount}" type="number"min="1"/></p>
+                <p><label for="">수량 </label><input  th:field="*{pCount}" type="number"min="1" th:max="${4}" /></p>
                 <p><label for="">픽업시간 </label><input th:field="*{visittime}" type="datetime-local"  onchange="setMinvalue()"/></p>
                 <p><label for="">총 결제금액</label><input th:field="*{price}" type="text"  readonly /></p>
               </div>

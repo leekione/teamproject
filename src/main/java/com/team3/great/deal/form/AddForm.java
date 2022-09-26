@@ -1,7 +1,6 @@
 package com.team3.great.deal.form;
 
 import com.team3.great.Product;
-import com.team3.great.product.form.SaveForm;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,6 +24,6 @@ public class AddForm {
     private Date orderdate;      //    orderdate date,          --주문일자
     private Long pickupStatus;      //    pickup_status number (1) default 0 --픽업상태
     private Product product;
-    private SaveForm saveForm;
+
 
 }

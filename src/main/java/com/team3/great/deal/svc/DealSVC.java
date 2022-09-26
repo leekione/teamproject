@@ -1,6 +1,5 @@
 package com.team3.great.deal.svc;
 
-import com.team3.great.Product;
 import com.team3.great.deal.dao.Deal;
 
 import java.util.List;
@@ -17,7 +16,7 @@ public interface DealSVC {
     //주문 번호로 조회
     Optional<Deal> findByOrderNumber(Long orderNumber);
 
-    int update(Long pNumber,Product product);
+    int update(Long pNumber,Deal deal);
 
     //상품조회
 

@@ -15,6 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Optional;
+
 @Slf4j
 @RequiredArgsConstructor
 @Controller
@@ -46,29 +48,44 @@ public class DealController {
     public String add(@PathVariable("pNumber") Long pNumber,
             @ModelAttribute("form") AddForm addForm, RedirectAttributes redirectAttributes){
         Deal deal = new Deal();
-//        Product product = new Product();
+        Product product = new Product();
         BeanUtils.copyProperties(addForm, deal);
-        Product findedProdcut = productSVC.findByProductNum(pNumber);
-        BeanUtils.copyProperties(addForm,findedProdcut);
-
         dealSVC.add(deal);
-//        dealSVC.update(pNumber, findedProdcut);
+        log.info("deal={}", deal);
+
+        Product findedProduct = productSVC.findByProductNum(pNumber);
+
+        BeanUtils.copyProperties(findedProduct.getPNumber(),addForm);
+
+        dealSVC.update(pNumber, deal);
+        Optional<Deal> byOrderNumber = dealSVC.findByOrderNumber(deal.getOrderNumber());
+        Deal deal1 = byOrderNumber.get();
+        Long orderNumber = deal1.getOrderNumber();
+
 
         redirectAttributes.addAttribute("pNumber",pNumber);
-        return "redirect:/buy/add/{pNumber}/end/";
+        redirectAttributes.addAttribute("byOrderNumber",orderNumber);
+
+        return "redirect:/buy/add/{pNumber}/end/{byOrderNumber}";
     }
 
 
 
 
-//    등록 완료 양식
-    @GetMapping("/add/{pNumber}/end")
-    public String addEnd(@PathVariable("pNumber") Long pNumber, Model model){
+//    등록 완료 조회 양식
+    @GetMapping("/add/{pNumber}/end/{orderNumber}")
+    public String addEnd(@PathVariable("pNumber") Long pNumber, @PathVariable("orderNumber") Long orderNumber ,  Model model){
+        Optional<Deal> byOrderNumber = dealSVC.findByOrderNumber(orderNumber);
         Product byProductNum = productSVC.findByProductNum(pNumber);
         InfoForm infoForm = new InfoForm();
-
-            BeanUtils.copyProperties(byProductNum,infoForm);
         log.info("infoForm={}",infoForm);
+
+        if(!byOrderNumber.isEmpty()){
+            BeanUtils.copyProperties(byOrderNumber.get(),infoForm);
+            BeanUtils.copyProperties(byProductNum,infoForm);
+            log.info("infoForm={}",infoForm);
+
+        }
 
         model.addAttribute("form",infoForm);
         log.info("infoForm={}",infoForm);

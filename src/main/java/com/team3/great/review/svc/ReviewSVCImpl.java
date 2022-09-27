@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -17,7 +16,7 @@ public class ReviewSVCImpl implements ReviewSVC {
 
     //등록
     @Override
-    public Long save(Review review) {
+    public Review save(Review review) {
         return reviewDAO.save(review);
     }
 
@@ -29,8 +28,8 @@ public class ReviewSVCImpl implements ReviewSVC {
 
     //조회
     @Override
-    public Optional<Review> findByReviewId(Long reviewNumber) {
-        return reviewDAO.findByReviewId(reviewNumber);
+    public List<Review> findByMemNumber(Long memNumber) {
+        return reviewDAO.findByMemNumber(memNumber);
     }
 
     //수정

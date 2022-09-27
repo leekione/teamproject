@@ -12,27 +12,27 @@
     <body>
         <main class="main-reivew">
         <h1 class="title">리뷰 작성</h1>
-        <form class="review">
+        <form class="review" id="reviewForm" method="post" th:object="${form}">
             <fieldset>
             <span class="text-bold">별점을 선택해주세요</span>
-            <input type="radio" name="reviewStar" value="5" id="rate1" /><label
-                for="rate1"
+            <input type="radio" name="grade" value="5" id="rate5" /><label
+                for="rate5"
                 >★</label
             >
-            <input type="radio" name="reviewStar" value="4" id="rate2" /><label
-                for="rate2"
-                >★</label
-            >
-            <input type="radio" name="reviewStar" value="3" id="rate3" /><label
-                for="rate3"
-                >★</label
-            >
-            <input type="radio" name="reviewStar" value="2" id="rate4" /><label
+            <input type="radio" name="grade" value="4" id="rate4" /><label
                 for="rate4"
                 >★</label
             >
-            <input type="radio" name="reviewStar" value="1" id="rate5" /><label
-                for="rate5"
+            <input type="radio" name="grade" value="3" id="rate3" /><label
+                for="rate3"
+                >★</label
+            >
+            <input type="radio" name="grade" value="2" id="rate2" /><label
+                for="rate2"
+                >★</label
+            >
+            <input type="radio" name="grade" value="1" id="rate1" /><label
+                for="rate1"
                 >★</label
             >
             </fieldset>
@@ -41,33 +41,19 @@
                 type="text"
                 placeholder="리뷰를 작성해 주세요~!">
             </textarea> -->
-            <div id="edit" contenteditable="true">
-                
-                <!-- <img id="preview-image" src=""> -->
-            </div>
-            <input type="file" id="input-image" multiple >
-            <div class="btn btnReview" onclick="window.close()"><a href="#">작성 완료</a></div>
+            <textarea name="content" clos="200" row="20">
+            </textarea>
+            <button id="btn" class="btn btnReview">작성 완료</button>
         
         </form>
         </main>
         <script>
-        const $btn = document.querySelector('.btn');
-        $btn.addEventListener('click', (e)=>{
-            const $write = opener.document.querySelector('.review--write');
-            
-            $write.textContent='작성완료';
-            $write.classList.remove('review--write');
-        });
+            btn.addEventListener('click',(e)=>{
+                e.preventDefault();
 
-        $btn.addEventListener('click',()=>{
-            const $reviewText = opener.document.querySelector('.review-update');
-                
-            $reviewText.classList.remove('review-update');
-            $reviewText.textContent = edit.textContent;
-         
-            
-        });
+                reviewForm.submit();
 
+            });
 
         </script>
     </body>

@@ -43,6 +43,8 @@ public class DealSVCImpl implements DealSVC{
     // 구매 삭제
     @Override
     public int deleteByOrderNumber(Long orderNumber) {
-        return 0;
+        int affectedRow = dealDAO.deleteByOrderNumber(orderNumber);
+        return affectedRow;
+                
     }
 }

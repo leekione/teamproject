@@ -2,6 +2,7 @@ package com.team3;
 
 
 import com.team3.great.Product;
+import com.team3.great.common.ApiResponse;
 import com.team3.great.deal.dao.Deal;
 import com.team3.great.deal.form.AddForm;
 import com.team3.great.deal.form.InfoForm;
@@ -37,8 +38,7 @@ public class DealController {
         BeanUtils.copyProperties(findedProduct,addForm);
 
         model.addAttribute("form", addForm);
-        log.info("form={}",addForm);
-        log.info("findedProduct={}",findedProduct);
+
         return "buy/buy-online";
     }
 
@@ -62,14 +62,13 @@ public class DealController {
         Long orderNumber = deal1.getOrderNumber();
 
 
+        log.info("addForm={}",addForm);
+
         redirectAttributes.addAttribute("pNumber",pNumber);
         redirectAttributes.addAttribute("byOrderNumber",orderNumber);
 
         return "redirect:/buy/add/{pNumber}/end/{byOrderNumber}";
     }
-
-
-
 
 //    등록 완료 조회 양식
     @GetMapping("/add/{pNumber}/end/{orderNumber}")
@@ -91,4 +90,13 @@ public class DealController {
         return "buy/buy-complete";
 
     }
+    @ResponseBody
+    @DeleteMapping("/del/{orderNumber}")
+    public ApiResponse<Deal> delBuy(@PathVariable("orderNumber") Long orderNumber){
+
+        dealSVC.deleteByOrderNumber(orderNumber);
+
+        return ApiResponse.createApiResMsg("00","성공",null);
+    }
+
 }

@@ -65,11 +65,15 @@ public class DealDAOImpl implements DealDAO{
    @Override
     public List<Deal> findByMemberNumber(Long memNumber) {
        StringBuffer sql = new StringBuffer();
-       sql.append(" select * ");
-       sql.append(" from deal d, member m, product_info p ");
-       sql.append(" where d.buyer_number = m.mem_number and d.p_number = p.p_number ");
-       sql.append(" and d.buyer_number = ? ");
 
+
+
+       sql.append("select *");
+       sql.append("  from ( select * ");
+       sql.append("       from member m, product_info p ");
+       sql.append("      where m.mem_number = p.owner_number) t1, deal d ");
+       sql.append(" where d.p_number = t1.p_number ");
+       sql.append("   and d.buyer_number = ? ");
 
 
        List<Deal> deals = null;
@@ -104,6 +108,7 @@ public class DealDAOImpl implements DealDAO{
         sql.append(" where m.mem_number = p.owner_number ");
         sql.append("  and p.p_number = d.p_number ");
         sql.append("  and d.order_number = ? ");
+
 
         try {
             Deal deal = jt.queryForObject(sql.toString(), new RowMapper<Deal>() {
@@ -143,6 +148,10 @@ public class DealDAOImpl implements DealDAO{
 
     @Override
     public int deleteByOrderNumber(Long orderNumber) {
-        return 0;
+        String sql =" delete from deal where order_number = ?";
+
+        int affectedRow = jt.update(sql.toString(), orderNumber);
+
+        return affectedRow;
     }
 }

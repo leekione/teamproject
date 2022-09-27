@@ -115,7 +115,8 @@
                         <a href="#" class="write">작성하기</a>
                         </td>
                         <td>
-                        <a href="#" class="order-status">취소하기</a></td>
+                        <a href="#" class="order-status" th:onclick="|delBuy(event,${order.orderNumber})|">취소하기</a></td>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -179,24 +180,23 @@
                     })
                 };
 
-                const $status = document.querySelectorAll('.order-status');
-                    $status.forEach((ele,idx)=>{
-                        $status[idx].addEventListener('click',()=>{
-                            
-                            if(confirm('취소하시겠습니까?')){
-                            $status[idx].textContent = '취소완료'
-                            }else{
-                            return;
-                            }
-                        })
-                    });
-                    
-                
-                
+            function delBuy(event,orderNumber){
+                event.preventDefault();
 
-        
-                
-            
+                if(!confirm('취소하시겠습니까?')) return;
+
+                const url = `http://localhost:9081/buy/del/{orderNumber}`;
+                fetch( url, {
+                    method: 'DELETE',
+                    headers: {
+                        'Accept':'application/json'
+                        },
+                    }).then(res=>res.json())
+                      .then(data=>
+                        console.log(data))
+                      .catch(err=>console.log(err));
+                  }
+
             </script>
         </body>
         </html>

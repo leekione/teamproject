@@ -70,7 +70,7 @@
                             <span>픽업 예정시간</span><label for="" th:text="*{#strings.substring(visittime,5,7)}+월+
                                                                            *{#strings.substring(visittime,8,10)}+일+
                                                                             *{#strings.substring(visittime,10,13)}+시+
-                                                                            *{#strings.substring(visittime,13,15)}+분">17:20</label>
+                                                                            *{#strings.substring(visittime,13,16)}+분">17:20</label>
                         </p>
                         <p>
                             <span>주문시간</span><label for="" th:text="*{#dates.format(orderdate,'MM월dd일 HH시:mm분')}">14:30</label>

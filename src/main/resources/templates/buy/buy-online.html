@@ -56,7 +56,7 @@
 
       <main class="main container">
         <h2>주문결제</h2>
-        <form class="main__content" method="post" th:object="${form}">
+        <form id="buyForm" class="main__content" method="post" th:object="${form}">
           <div class="order__item">
             
               <h3>주문 상품</h3>
@@ -135,10 +135,13 @@
         const $btn = document.querySelectorAll('.btnbuy');
 
         $btn.forEach((ele,idx)=>{
-            $btn[idx].addEventListener('click',()=>{
-                if(confirm('구매하시겠습니까')){
-                    location.href= 'buy-complete.html';
-                }
+            $btn[idx].addEventListener('click',(e)=>{
+                e.preventDefault();
+                if(!confirm('구매하시겠습니까')) return;
+
+                buyForm.submit();
+
+
             })
         })
     </script>

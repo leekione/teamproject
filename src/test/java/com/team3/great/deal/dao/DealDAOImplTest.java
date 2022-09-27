@@ -36,4 +36,10 @@ class DealDAOImplTest {
     }
 
 
+    @Test
+    void deleteByOrderNumber() {
+        int i = dealDAO.deleteByOrderNumber(22L);
+
+        log.info("i={}",i);
+    }
 }

@@ -219,17 +219,35 @@ insert into good values ('2','1',0002);
 
 --즐겨찾기데이터 생성
 insert into bookmark values ('1','1','1');
-update product_infO
-  set remain_count = 20
-  where p_number = 1;
-  rollback;
-commit;
-select p_name, remain_count
-from product_info;
+--update product_infO
+--  set remain_count = 20
+--  where p_number = 1;
+--  rollback;
+--commit;
+--select p_name, remain_count
+--from product_info;
 select * from product_info; 
 select * from deal;
-delete from deal;  
-delete from product_info;
+--delete from deal;  
+--delete from product_info;
+select * from review;     
+select buyer_number
+  from review
+  where buyer_number = 1;
+  commit;
+  select * from deal;
+  delete deal
+  where order_number =21;
+  
+select *
+from review , member
+where buyer_number = mem_number
+and buyer_number = 1;
+  
+delete from review;
+rollback;
+commit;
+select * from profile;
 
 select  * 
 from product_info P, member M
@@ -242,7 +260,17 @@ select *
  where d.buyer_number = m.mem_number 
  and d.p_number = p.p_number
  and d.seller_number = p.owner_number
- and d.order_number = 1;
+ and d.order_number = 1
+ and d.seller_number = 3;
+ 
+ select *
+ from( select *
+   from member m, product_info p
+   where m.mem_number = p.owner_number) t1, deal d
+      where d.p_number = t1.p_number
+     and d.buyer_number =1;
+   
+   
   
   select * from member; 
  select *
@@ -255,6 +283,19 @@ select *
 from member m, product_info p
 where p.owner_number = m.mem_number
 and p.p_number = 2;
+
+select *
+from member m, deal d, product_info p
+where m.mem_number = d.buyer_number
+and m.mem_number = d.seller_number
+and p.p_number = d.p_number
+and d.order_number = 1;
+
+select *
+from member m, deal d, product_info p
+where m.mem_number = p.owner_number
+and p.p_number = d.p_number
+and d.order_number = 1;
         
         
     select * from member;

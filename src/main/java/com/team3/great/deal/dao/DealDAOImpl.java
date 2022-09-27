@@ -148,7 +148,7 @@ public class DealDAOImpl implements DealDAO{
 
     @Override
     public int deleteByOrderNumber(Long orderNumber) {
-        String sql =" delete from deal where order_number = ?";
+        String sql =" delete from deal where order_number = ? ";
 
         int affectedRow = jt.update(sql.toString(), orderNumber);
 

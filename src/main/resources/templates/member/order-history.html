@@ -184,7 +184,6 @@
                 event.preventDefault();
 
                 if(!confirm('취소하시겠습니까?')) return;
-
                 const url = `http://localhost:9081/buy/del/{orderNumber}`;
                 fetch( url, {
                     method: 'DELETE',

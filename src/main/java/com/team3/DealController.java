@@ -90,7 +90,8 @@ public class DealController {
         return "buy/buy-complete";
 
     }
-    @ResponseBody
+
+    //구매 취소
     @DeleteMapping("/del/{orderNumber}")
     public ApiResponse<Deal> delBuy(@PathVariable("orderNumber") Long orderNumber){
 

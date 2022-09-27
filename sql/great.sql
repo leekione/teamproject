@@ -203,7 +203,7 @@ INSERT INTO PRODUCT_INFO
 --거래데이터 생성
 insert into deal values (deal_order_number_seq.nextval, 1, 3,0001,1,'4000',sysdate,'1','0','0',sysdate,'0');
 insert into deal values (deal_order_number_seq.nextval, 2, 3,0002,1,'5000',sysdate,'1','0','0',sysdate,'0');
-
+commit;
 --프로필데이터 생성
 insert into profile values ('1','3',0001);
 
@@ -228,8 +228,8 @@ insert into bookmark values ('1','1','1');
 --from product_info;
 select * from product_info; 
 select * from deal;
---delete from deal;  
---delete from product_info;
+delete from deal;  
+delete from product_info;
 select * from review;     
 select buyer_number
   from review

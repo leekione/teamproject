@@ -2,7 +2,6 @@ package com.team3;
 
 
 import com.team3.great.Product;
-import com.team3.great.common.ApiResponse;
 import com.team3.great.deal.dao.Deal;
 import com.team3.great.deal.form.AddForm;
 import com.team3.great.deal.form.InfoForm;
@@ -91,13 +90,6 @@ public class DealController {
 
     }
 
-    //구매 취소
-    @DeleteMapping("/del/{orderNumber}")
-    public ApiResponse<Deal> delBuy(@PathVariable("orderNumber") Long orderNumber){
 
-        dealSVC.deleteByOrderNumber(orderNumber);
-
-        return ApiResponse.createApiResMsg("00","성공",null);
-    }
 
 }

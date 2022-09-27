@@ -147,6 +147,17 @@ public class DealDAOImpl implements DealDAO{
     }
 
     @Override
+    public int delUpdate(Long pNumber, Deal deal) {
+        StringBuffer sql = new StringBuffer();
+        sql.append("update product_info ");
+        sql.append("  set remain_count = remain_count + ? ");
+        sql.append(" where p_number = ? ");
+
+        int affectedRow = jt.update(sql.toString(),deal.getPCount(),pNumber);
+        return affectedRow;
+    }
+
+    @Override
     public int deleteByOrderNumber(Long orderNumber) {
         String sql =" delete from deal where order_number = ? ";
 

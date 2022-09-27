@@ -27,6 +27,7 @@ public class DealSVCImpl implements DealSVC{
         return dealDAO.findByMemberNumber(memNumber);
     }
 
+    //구매시 상품갯수 감소
     @Override
     public int update(Long pNumber,Deal deal) {
         return dealDAO.update(pNumber,deal);
@@ -34,13 +35,19 @@ public class DealSVCImpl implements DealSVC{
 
     //상품조회
 
-
+    //주문번호로 조회
     @Override
     public Optional<Deal> findByOrderNumber(Long orderNumber) {
         return dealDAO.findByOrderNumber(orderNumber);
     }
 
-    // 구매 삭제
+    // 구매 취소시 상품갯수 증가
+    @Override
+    public int delUpdate(Long pNumber, Deal deal) {
+        return dealDAO.delUpdate(pNumber, deal);
+    }
+
+    // 구매 취소
     @Override
     public int deleteByOrderNumber(Long orderNumber) {
         int affectedRow = dealDAO.deleteByOrderNumber(orderNumber);

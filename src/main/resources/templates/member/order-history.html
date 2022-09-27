@@ -104,7 +104,7 @@
                         <td th:text="${#dates.format(order.orderdate, 'yyyy-MM-dd HH:mm')}">2022.07.07</td>
                         <td th:text="${order.member.memStoreName}">가게1</td>
                         <td th:text="${order.product.pName}">참치김밥</td>
-                        <td th:text="${order.pCount}">3</td>
+                        <td th:text="${order.pCount}" class="count">3</td>
                         <td th:text="${order.price}">6,000원</td>
                         <td th:text="${#strings.substring(order.visittime,0,16)}">17:20</td>
                         <th:block th:switch="${order.buyType}">
@@ -115,7 +115,7 @@
                         <a href="#" class="write">작성하기</a>
                         </td>
                         <td>
-                        <a href="#" class="order-status" th:onclick="|delBuy(event,${order.orderNumber})|">취소하기</a></td>
+                        <a href="#" class="order-status" th:onclick="|updatePcount(event,${order.product.pNumber});delBuy(event,${order.orderNumber});|">취소하기</a></td>
                         </td>
                     </tr>
                     </tbody>
@@ -164,6 +164,8 @@
             </div>
 
             <script>
+            const pcnt = { "pCount" : 2};
+
                 const $write = document.querySelectorAll('.write');
                 for (let i = 0; i < $write.length; i++){
                     $write[i].addEventListener('click' ,() => {
@@ -183,18 +185,36 @@
             function delBuy(event,orderNumber){
                 event.preventDefault();
 
-                if(!confirm('취소하시겠습니까?')) return;
-                const url = `http://localhost:9081/buy/del/{orderNumber}`;
+                const url = `http://localhost:9081/buy/del/${orderNumber}`;
                 fetch( url, {
                     method: 'DELETE',
                     headers: {
                         'Accept':'application/json'
                         },
                     }).then(res=>res.json())
-                      .then(data=>
-                        console.log(data))
+                      .then(data=>{console.log(data);
+                      })
                       .catch(err=>console.log(err));
                   }
+
+            function updatePcount(event,pNumber){
+                 event.preventDefault();
+
+                 if(!confirm('취소하시겠습니까?')) return;
+                 const url = `http://localhost:9081/buy/back/${pNumber}`;
+                     fetch( url, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type' :'application/json',
+                            'Accept':'application/json'
+                            },
+                            body: JSON.stringify(pcnt)
+                        }).then(res=>res.json())
+                          .then(data=>{console.log(data);
+
+                          })
+                          .catch(err=>console.log(err));
+                      }
 
             </script>
         </body>

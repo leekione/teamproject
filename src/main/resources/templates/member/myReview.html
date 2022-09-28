@@ -96,17 +96,22 @@
                 <!--                            <i class="fa-regular fa-star"></i>-->
                 <!--                            <label class="review-textContent">너무 맛있어요!</label>-->
                 <!--                        </div>-->
-                <!--                        <a href="#" class="updateReview" >리뷰 수정하기</a>-->
-                <!--                        <a href="#" class="delReview" >리뷰 삭제하기</a>-->
+
                 <!--                    </li>-->
                 <li class="review" th:each="review:${list}">
                     <div >
-                        <div th:text="${review.reviewNumber}"></div>
-                        <div th:text="${review.buyerNumber}"></div>
                         <div th:text="${review.member.memName}"></div>
                         <div th:text="${review.content}"></div>
-                        <div th:text="${review.grade}"></div>
+                        <th:block th:switch="${review.grade}">
+                            <div th:case="1" th:text="|★|"></div>
+                            <div th:case="2" th:text="|★★|"></div>
+                            <div th:case="3" th:text="|★★★|"></div>
+                            <div th:case="4" th:text="|★★★★|"></div>
+                            <div th:case="5" th:text="|★★★★★|"></div>
+                        </th:block>
                         <div th:text="${review.writeDate}"></div>
+                        <a href="#" class="updateReview" >리뷰 수정하기</a>
+                        <a href="#" class="delReview" >리뷰 삭제하기</a>
                     </div>
                 </li>
             </ul>

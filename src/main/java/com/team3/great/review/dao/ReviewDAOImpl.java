@@ -59,7 +59,7 @@ public class ReviewDAOImpl implements ReviewDAO {
         sql.append("select mem_name, content,write_date,grade,buyer_number ");
         sql.append(" from review , member ");
         sql.append(" where buyer_number = mem_number ");
-        sql.append(" and buyer_number = 1 ");
+        sql.append(" and buyer_number = 2 ");
 
 //        List<Review> reviews = jt.query(sql.toString(),new BeanPropertyRowMapper<>(Review.class));
 //        List<Review>  reviews = jt.query(sql.toString(), new RowMapper<Review>() {
@@ -94,9 +94,9 @@ public class ReviewDAOImpl implements ReviewDAO {
         StringBuffer sql = new StringBuffer();
 
         sql.append("select * ");
-        sql.append(" from review , member  ");
-        sql.append(" where buyer_number = mem_number ");
-        sql.append("  and buyer_number = ? ");
+        sql.append(" from review r , member m  ");
+        sql.append(" where r.buyer_number = m.mem_number ");
+        sql.append("  and r.buyer_number = ? ");
 
         List<Review> reviews = null;
 

@@ -8,7 +8,7 @@ public interface DealDAO {
     //구매등록
     Deal add(Deal deal);
 
-    //구매조회
+    //구매조회 회원번호로 조회
     List<Deal> findByMemberNumber(Long memNumber);
 
     //주문 번호로 조회

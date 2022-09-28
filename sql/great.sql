@@ -219,11 +219,11 @@ insert into good values ('2','1',0002);
 
 --즐겨찾기데이터 생성
 insert into bookmark values ('1','1','1');
---update product_infO
---  set remain_count = 20
---  where p_number = 1;
+update product_infO
+  set remain_count = 20
+  where p_number = 1;
 --  rollback;
---commit;
+commit;
 --select p_name, remain_count
 --from product_info;
 select * from product_info; 

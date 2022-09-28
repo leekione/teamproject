@@ -7,7 +7,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class InfoForm {
+public class ReviewInfoForm {
     private Long reviewNumber;
     private Long buyerNumber;
     private String content;

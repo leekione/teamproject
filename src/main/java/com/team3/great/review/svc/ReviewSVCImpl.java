@@ -26,7 +26,7 @@ public class ReviewSVCImpl implements ReviewSVC {
         return reviewDAO.findAll();
     }
 
-    //조회
+    //조회 회원번호로 조회
     @Override
     public List<Review> findByMemNumber(Long memNumber) {
         return reviewDAO.findByMemNumber(memNumber);

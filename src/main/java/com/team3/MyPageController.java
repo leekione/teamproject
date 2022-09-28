@@ -2,13 +2,12 @@ package com.team3;
 
 import com.team3.great.deal.dao.Deal;
 import com.team3.great.deal.svc.DealSVC;
-import com.team3.great.review.form.InfoForm;
+import com.team3.great.review.form.ReviewInfoForm;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,13 +23,14 @@ public class MyPageController {
 
     private final DealSVC dealSVC;
 
+    //주문 내역
     @GetMapping("/{id}")
     public String myPage(@PathVariable("id") Long memNumber, Model model){
         List<Deal> deals = dealSVC.findByMemberNumber(memNumber);
 
         List<Deal> list = new ArrayList<>();
         deals.stream().forEach(deal ->{
-            BeanUtils.copyProperties(deal, new InfoForm());
+            BeanUtils.copyProperties(deal, new ReviewInfoForm());
             list.add(deal);
         });
         log.info("list={}",list);

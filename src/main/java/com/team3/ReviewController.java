@@ -3,18 +3,15 @@ package com.team3;
 
 import com.team3.great.deal.svc.DealSVC;
 import com.team3.great.review.dao.Review;
-import com.team3.great.review.form.InfoForm;
 import com.team3.great.review.form.ReviewAddForm;
+import com.team3.great.review.form.ReviewInfoForm;
 import com.team3.great.review.svc.ReviewSVC;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
@@ -71,17 +68,32 @@ public class ReviewController {
 //    }
 
     //목록
-    @GetMapping("/all")
-    public String findAll(Model model) {
-        List<Review> reviews = reviewSVC.findAll();
+//    @GetMapping("/all")
+//    public String findAll(Model model) {
+//        List<Review> reviews = reviewSVC.findAll();
+//
+//        List<Review> list = new ArrayList<>();
+//        reviews.stream().forEach(review -> {
+//            BeanUtils.copyProperties(review,new InfoForm());
+//            list.add(review);
+//        });
+//        log.info("list={}",list);
+//        model.addAttribute("list",list);
+//        return "member/myReview";
+//    }
+    //리뷰 목록
+    @GetMapping("/{id}")
+    public String myReview(@PathVariable("id") Long memNumber, Model model){
+        List<Review> reviews = reviewSVC.findByMemNumber(memNumber);
 
         List<Review> list = new ArrayList<>();
-        reviews.stream().forEach(review -> {
-            BeanUtils.copyProperties(review,new InfoForm());
+        reviews.stream().forEach(review->{
+            BeanUtils.copyProperties(review, new ReviewInfoForm());
             list.add(review);
         });
         log.info("list={}",list);
         model.addAttribute("list",list);
+
         return "member/myReview";
     }
 }

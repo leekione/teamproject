@@ -11,7 +11,7 @@ public interface ReviewSVC {
     //리뷰목록
     List<Review> findAll();
 
-    //리뷰조회
+    //리뷰조회 회원번호로 조회
     List<Review> findByMemNumber(Long memNumber);
 
     //리뷰변경

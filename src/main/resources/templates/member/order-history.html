@@ -112,7 +112,7 @@
                             <td th:case="1" th:text="오프라인결제"></td>
                         </th:block>
                         <td>
-                        <a href="#" class="write">작성하기</a>
+                        <a href="#" th:href="@{/reviews/add}" class="write">작성하기</a>
                         </td>
                         <td>
                         <a href="#" class="order-status" th:onclick="|delBuy(event,${order.orderNumber})|">취소하기</a></td>
@@ -165,22 +165,6 @@
 
             <script>
 
-                const $write = document.querySelectorAll('.write');
-                for (let i = 0; i < $write.length; i++){
-                    $write[i].addEventListener('click' ,() => {
-                    $write[i].classList.add('review--write');
-                    if($write[i].textContent == '작성하기'){
-                        const popup = window.open(
-                        '/reviews/add',
-                        'a',
-                        'width=600px,height=700px,left=500,top=50')
-                        
-                    }else{
-                        alert('작성완료된 리뷰입니다.');
-                        $write[i].classList.remove('review--write');
-                    }
-                    })
-                };
 
             function delBuy(event,orderNumber){
                 event.preventDefault();

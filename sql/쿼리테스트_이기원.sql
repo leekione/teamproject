@@ -41,6 +41,11 @@ select m.mem_name, r.content,r.write_date,r.grade
   where r.buyer_number = mem_number
   and buyer_number =1;
   
+  select m.mem_name, r.content,r.write_date,r.grade
+  from review r, member m
+  where r.buyer_number = mem_number
+  and review_number = 41;
+  
 --¸®ºä¼öÁ¤
 update review
 set content = 'Á¤¸»¸ÀÀÕ¾î¿ä',

@@ -61,19 +61,6 @@ public class ReviewDAOImpl implements ReviewDAO {
         sql.append(" where buyer_number = mem_number ");
         sql.append(" and buyer_number = 2 ");
 
-//        List<Review> reviews = jt.query(sql.toString(),new BeanPropertyRowMapper<>(Review.class));
-//        List<Review>  reviews = jt.query(sql.toString(), new RowMapper<Review>() {
-//            @Override
-//            public Review mapRow(ResultSet rs, int rowNum) throws SQLException {
-//                Review review = new Review();
-//                review.getMember().setMemName(rs.getString("mem_name"));
-//                review.setContent(rs.getString("content"));
-//                review.setWriteDate(rs.getTimestamp("write_date").toLocalDateTime());
-//                review.setGrade(rs.getLong("grade"));
-//                review.setBuyerNumber(rs.getLong("buyer_number"));
-//                return review;
-//            }
-//        });
         List<Review>  reviews = jt.query(sql.toString(), new RowMapper<Review>() {
             @Override
             public Review mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -118,6 +105,24 @@ public class ReviewDAOImpl implements ReviewDAO {
         return reviews;
 
 
+    }
+
+    //리뷰조회 - 리뷰번호
+
+
+    @Override
+    public Review findByReviewNumber(Long reviewNumber) {
+        StringBuffer sql = new StringBuffer();
+
+        sql.append("select * ");
+        sql.append("  from review r, member m ");
+        sql.append(" where r.buyer_number = mem_number ");
+        sql.append("   and review_number = ? ");
+
+        Review review = new Review();
+
+
+        return null;
     }
 
     //수정

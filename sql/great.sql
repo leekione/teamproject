@@ -168,7 +168,7 @@ mem_number number (10),-- 회원 번호
 profile_number number(10)-- 프로필 번호
 );    
 
---좋아요번호 시퀀스 생성
+--즐겨찾기번호 시퀀스 생성
 drop sequence bookmark_bookmark_number_seq;
 create sequence  bookmark_bookmark_number_seq;
 
@@ -205,47 +205,50 @@ insert into deal values (deal_order_number_seq.nextval, 1, 3,0001,1,'4000',sysda
 insert into deal values (deal_order_number_seq.nextval, 2, 3,0002,1,'5000',sysdate,'1','0','0',sysdate,'0');
 commit;
 --프로필데이터 생성
-insert into profile values ('1','3',0001);
+insert into profile values (profile_profile_number_seq.nextval,'3',0001);
 
 --리뷰데이터 생성
-insert into review values('1','1','3','맛잇어요',sysdate,'5',1);
-insert into review values('2','2','3','맛잇어요',sysdate,'5',1);
+insert into review values(review_review_number_seq.nextval,'1','3','맛잇어요',sysdate,'5',1);
+insert into review values(review_review_number_seq.nextval,'2','3','맛잇어요',sysdate,'5',1);
 select * from review;
 select * from product_info; 
 
 --좋아요데이터 생성
-insert into good values ('1','1',0001); 
-insert into good values ('2','1',0002);
+insert into good values (good_good_number_seq.nextval,'1',0001); 
+insert into good values (good_good_number_seq.nextval,'1',0002);
 
 --즐겨찾기데이터 생성
-insert into bookmark values ('1','1','1');
-update product_infO
-  set remain_count = 20
-  where p_number = 1;
+insert into bookmark values (bookmark_bookmark_number_seq.nextval,'1','1');
+--update product_infO
+--  set remain_count = 20
+--  where p_number = 1;
 --  rollback;
-commit;
+--commit;
 --select p_name, remain_count
 --from product_info;
 select * from product_info; 
 select * from deal;
-delete from deal;  
-delete from product_info;
+--delete from deal;  
+--delete from product_info;
 select * from review;     
+delete from review;
+select * from profile;     
+
 select buyer_number
   from review
   where buyer_number = 1;
-  commit;
+--  commit;
   select * from deal;
-  delete deal
-  where order_number =21;
+--  delete deal
+--  where order_number =21;
   
 select *
 from review , member
 where buyer_number = mem_number
 and buyer_number = 1;
   
-delete from review;
-rollback;
+--delete from review;
+--rollback;
 commit;
 select * from profile;
 

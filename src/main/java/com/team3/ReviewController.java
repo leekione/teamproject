@@ -11,9 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,52 +37,23 @@ public class ReviewController {
     }
 
     //리뷰 등록 처리
-//    @PostMapping("/add")
-//    public String save(@ModelAttribute("form") ReviewAddForm reviewAddForm, RedirectAttributes redirectAttributes){
-//        Review review = new Review();
-//        BeanUtils.copyProperties(reviewAddForm, review);
-//        review.setBuyerNumber(1l);
-//        Review save = reviewSVC.save(review);
-//
-//        Long buyerNumber = save.getBuyerNumber();
-//
-//        redirectAttributes.addAttribute("id",buyerNumber);
-//
-//
-//
-//        return "redirect:/reviews/{id}";
-//
-//    }
+    @PostMapping("/add")
+    public String save(@ModelAttribute("form") ReviewAddForm reviewAddForm, RedirectAttributes redirectAttributes){
+        Review review = new Review();
+        BeanUtils.copyProperties(reviewAddForm, review);
+        review.setBuyerNumber(1l);
+        Review save = reviewSVC.save(review);
 
-    //조회
-//    @GetMapping("/{id}/detail")
-//    public String findByBuyId(@PathVariable("id") Long id, Model model) {
-//
-//        Optional<Review> findedReview = reviewSVC.findByReviewId(id);
-//        InfoForm infoForm = new InfoForm();
-//        if(!findedReview.isEmpty()) {
-//            BeanUtils.copyProperties(findedReview.get(),infoForm);
-//
-//        }
-//
-//        model.addAttribute("form",infoForm);
-//        return "member/myReview";
-//    }
+        Long buyerNumber = save.getBuyerNumber();
 
-    //목록
-//    @GetMapping("/all")
-//    public String findAll(Model model) {
-//        List<Review> reviews = reviewSVC.findAll();
-//
-//        List<Review> list = new ArrayList<>();
-//        reviews.stream().forEach(review -> {
-//            BeanUtils.copyProperties(review,new InfoForm());
-//            list.add(review);
-//        });
-//        log.info("list={}",list);
-//        model.addAttribute("list",list);
-//        return "member/myReview";
-//    }
+        redirectAttributes.addAttribute("id",buyerNumber);
+
+
+
+        return "redirect:/reviews/{id}";
+
+    }
+
     //리뷰 목록
     @GetMapping("/{id}")
     public String myReview(@PathVariable("id") Long memNumber, Model model){
@@ -99,4 +69,11 @@ public class ReviewController {
 
         return "member/myReview";
     }
+
+    //리뷰 수정 화면
+//    @GetMapping("/edit/{reviewNumber}")
+//    public String reviewEdit(@PathVariable("reviewNumber") Long reviewNumber, Model model){
+////        reviewSVC.
+//
+//    }
 }

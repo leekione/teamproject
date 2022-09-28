@@ -1,101 +1,48 @@
     <!DOCTYPE html>
     <html lang="ko"
-          xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:th="http://www.thymeleaf.org"
+          xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+          layout:decorate="~{fragments/layout}">
+    <head layout:fragment="head">
+        <th:block th:replace="fragments/layout :: commonHead"></th:block>
         <title>GREAT 리뷰작성</title>
-        <link rel="stylesheet" href="/css/common/common.css" />
+
         <link rel="stylesheet" href="/member/css/review_popup.css" />
     </head>
     <body>
+    <div layout:fragment="wrapper" class="wrapper">
+        <header th:replace="fragments/layout ::fragNonHeader">
+
+        </header>
         <main class="main-reivew">
         <h1 class="title">리뷰 작성</h1>
-        <form class="review" id="reviewForm" method="post" name="reviewPopup" th:object="${form}">
+        <form class="review" action="" method="post">
             <fieldset>
             <span class="text-bold">별점을 선택해주세요</span>
-            <input type="radio" name="grade" value="5" id="rate5" /><label
-                for="rate5"
-                >★</label
-            >
-            <input type="radio" name="grade" value="4" id="rate4" /><label
-                for="rate4"
-                >★</label
-            >
-            <input type="radio" name="grade" value="3" id="rate3" /><label
-                for="rate3"
-                >★</label
-            >
-            <input type="radio" name="grade" value="2" id="rate2" /><label
-                for="rate2"
-                >★</label
-            >
-            <input type="radio" name="grade" value="1" id="rate1" /><label
-                for="rate1"
-                >★</label
-            >
+
+            <input type="radio" name="grade" value="5" id="rate5"/>
+                <label for="rate5">★</label>
+            <input type="radio" name="grade" value="4" id="rate4"/>
+                <label for="rate4">★</label>
+            <input type="radio" name="grade" value="3" id="rate3"/>
+                <label for="rate3">★</label>
+            <input type="radio" name="grade" value="2" id="rate2"/>
+                <label for="rate2">★</label>
+            <input type="radio" name="grade" value="1" id="rate1"/>
+                <label for="rate1">★</label>
+
             </fieldset>
-            <!-- <textarea
-                class="reviewContents"
-                type="text"
-                placeholder="리뷰를 작성해 주세요~!">
-            </textarea> -->
-            <textarea id="reviewText" type="text" name="content" cols="50" rows="30">
+
+            <textarea id="content" type="text" name="content" cols="50" rows="30">
             </textarea>
-            <button id="btn" class="btn btnReview">작성 완료</button>
+            <button id="addBtn" class="btn btnReview">작성 완료</button>
         
         </form>
         </main>
         <script>
-        const form = {
-            rate1:document.getElementById('rate1'),
-            rate2:document.getElementById('rate2'),
-            rate3:document.getElementById('rate3'),
-            rate4:document.getElementById('rate4'),
-            rate5:document.getElementById('rate5'),
-            reviewText:document.getElementById('reviewText')
-        }
-
-        //입력데이터 가져오기
-        function getInputData(){
-            const rate1 = form.rate1.value;
-            const rate2 = form.rate2.value;
-            const rate3 = form.rate3.value;
-            const rate4 = form.rate4.value;
-            const rate5 = form.rate5.value;
-            const reviewText = form.reviewText.textContent;
-
-                return {rate1, rate2, rate3, rate4, rate5, reviewText};
-            }
-
-            btn.addEventListener('click',e=>{
-                const review = getInputData();
-                addReview(review);
-                window.close();
-
-            });
-
-            function addReview(review){
-                const url = 'http://localhost:9081/reviews/add';
-                fetch(url, {
-                    method : 'POST',
-                    headers : {
-                        'Content-Type':'application/json',
-                        'Accept': 'application/json'
-                    },
-                    body : JSON.stringify(review)
-                    }).then(res=>res.json())
-                      .then(data=> {
-                      window.close();
-                      console.log(data);
-                      window.close();
-                        })
-                      .catch(err=>console.log(err));
-              }
-
-
 
         </script>
+        </div>
     </body>
     </html>

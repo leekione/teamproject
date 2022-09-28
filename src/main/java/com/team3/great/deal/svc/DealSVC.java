@@ -26,5 +26,5 @@ public interface DealSVC {
     int deleteByOrderNumber(Long orderNumber);
 
     //구매 취소시 상품갯수 증가
-    int delUpdate(Long pNumber,Deal deal);
+//    int delUpdate(Long pNumber,Deal deal);
 }

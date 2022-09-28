@@ -42,14 +42,18 @@ public class DealSVCImpl implements DealSVC{
     }
 
     // 구매 취소시 상품갯수 증가
-    @Override
-    public int delUpdate(Long pNumber, Deal deal) {
-        return dealDAO.delUpdate(pNumber, deal);
-    }
+//    @Override
+//    public int delUpdate(Long pNumber, Deal deal) {
+//        return dealDAO.delUpdate(pNumber, deal);
+//    }
 
     // 구매 취소
     @Override
     public int deleteByOrderNumber(Long orderNumber) {
+        Optional<Deal> foundOrder = dealDAO.findByOrderNumber(orderNumber);
+        log.info("foundOrder : {} ",foundOrder);
+        dealDAO.delUpdate(foundOrder.get().getPNumber(),foundOrder.get());
+
         int affectedRow = dealDAO.deleteByOrderNumber(orderNumber);
         return affectedRow;
                 

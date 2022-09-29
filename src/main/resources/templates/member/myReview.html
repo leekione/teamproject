@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko"
-      xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{fragments/layout}">
-
-<head layout:fragment="head">
-    <th:block th:replace="fragments/layout :: commonHead"></th:block>
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/common/common.css"/>
 
     <link rel="stylesheet" href="/member/css/myReview.css">
     <script src="https://kit.fontawesome.com/038578f405.js" crossorigin="anonymous"></script>
@@ -15,11 +14,40 @@
     <title>GREAT 내 리뷰</title>
 </head>
 <body>
-<div layout:fragment="wrapper" class="wrapper">
-    <header th:replace="fragments/layout ::fragNonHeader">
-
+<div class="wrapper">
+    <header class="header container">
+        <nav class="top-menu content">
+            <a href="" class="top-menu__join">회원가입</a>
+            <a href="" class="top-menu__login">로그인</a>
+            <a href="" class="top-menu__cs">고객센터</a>
+        </nav>
+        <div class="logo content"><a href="#">GR<span>EAT</span></a></div>
+        <nav class="bottom-menu content">
+            <div class="category">
+                <ul>
+                    <li class="region-category"> 지역 선택&nbsp;&nbsp;<i class="fa-solid fa-chevron-down"> </i>
+                        <ul>
+                            <li><a href="">남구</a></li>
+                            <li><a href="">중구</a></li>
+                            <li><a href="">북구</a></li>
+                            <li><a href="">동구</a></li>
+                            <li><a href="">울주군</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="search">
+                <input type="text" class="search__search-box" placeholder="검색어를 입력하세요.">
+                <a href="" class="search__search-icon"><i class="fa-solid fa-magnifying-glass"></i></a>
+            </div>
+        </nav>
+        <!-- top버튼 페이지 오른쪽 하단에 위치함 -->
+        <div class="topbtn">
+            <a href="#top"><i class="fa-solid fa-angles-up"></i></a>
+        </div>
     </header>
     <!-- //header -->
+
 
     <main class="review-container">
         <aside class="aside-content">
@@ -100,7 +128,8 @@
                 <!--                    </li>-->
                 <li class="review" th:each="review:${list}">
                     <div >
-                        <div th:text="${review.member.memName}"></div>
+                        <div th:text="${review.member.memStoreName}"></div>
+                        <div th:text="${review.member.product.pName}"></div>
                         <div th:text="${review.content}"></div>
                         <th:block th:switch="${review.grade}">
                             <div th:case="1" th:text="|★|"></div>
@@ -110,8 +139,9 @@
                             <div th:case="5" th:text="|★★★★★|"></div>
                         </th:block>
                         <div th:text="${review.writeDate}"></div>
-                        <a href="#" class="updateReview" >리뷰 수정하기</a>
-                        <a href="#" class="delReview" >리뷰 삭제하기</a>
+                        <a href="#" class="updateReview" th:href="@{/mypage/review/edit/{id}(id=${review.reviewNumber})}" >리뷰 수정하기</a>
+<!--                        <a href="#" class="delReview"  th:href="@{/reviews/del/{reviewNumber}(reviewNumber=${review.reviewNumber})}" >리뷰 삭제하기</a>-->
+                        <a href="#" class="delReview" th:onclick="|delReview(event,${review.reviewNumber})|">리뷰 삭제하기</a>
                     </div>
                 </li>
             </ul>
@@ -159,28 +189,23 @@
 </div>
 </body>
 <script>
-        const $review = document.querySelectorAll('.review');
-        const $del = document.querySelectorAll('.delReview');
-            $del.forEach((ele,idx)=>{
-                    $del[idx].addEventListener('click',()=>{
-                        console.log('클릭')
-                        if(confirm('삭제하시겠습니까')){
-                            $review[idx].remove();
-                        }
-                    })
-            });
-        const $reviewTextContent = document.querySelectorAll('.review-textContent')   ; 
-        const $update = document.querySelectorAll('.updateReview');
-        $update.forEach((ele,idx)=>{
-            $update[idx].addEventListener('click',()=>{
-                $reviewTextContent[idx].classList.add('review-update');
-                window.open(
-                    'review_popup.html',
-                    'a',
-                    'width=600px,height=700px,left=500,top=50'
-                )
-            })
-        })
+
+    function delReview(event,reviewNumber){
+        event.preventDefault();
+        if(!confirm("삭제하시겠습니까")) return;
+        const url = `http://localhost:9081/mypage/review/del/${reviewNumber}`;
+        fetch ( url, {
+            method : 'DELETE',
+            headers : {
+                'Accept' : 'application/json'
+                },
+            }).then(res=>res.json())
+              .then(data=>{console.log(data);
+              window.location.reload();
+              })
+              .catch(err=>console.log(err));
+          }
+
 
     </script>
 

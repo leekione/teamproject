@@ -35,10 +35,11 @@ public class DealController {
         AddForm addForm = new AddForm();
         Product findedProduct = productSVC.findByProductNum(pNumber);
         BeanUtils.copyProperties(findedProduct,addForm);
-
+        addForm.setSellerNumber(findedProduct.getMember().getMemNumber());
         model.addAttribute("form", addForm);
+        log.info("addForm={}",addForm);
 
-        return "buy/buy-online";
+        return "buy/buy";
     }
 
     //등록 처리
@@ -46,12 +47,13 @@ public class DealController {
     public String add(@PathVariable("pNumber") Long pNumber,
             @ModelAttribute("form") AddForm addForm, RedirectAttributes redirectAttributes){
         Deal deal = new Deal();
-
+        Product findedProduct = productSVC.findByProductNum(pNumber);
+//        BeanUtils.copyProperties(findedProduct,addForm);
         BeanUtils.copyProperties(addForm, deal);
+//        deal.setSellerNumber(addForm.getSellerNumber());
         dealSVC.add(deal);
 
 
-        Product findedProduct = productSVC.findByProductNum(pNumber);
 
         BeanUtils.copyProperties(findedProduct.getPNumber(),addForm);
 

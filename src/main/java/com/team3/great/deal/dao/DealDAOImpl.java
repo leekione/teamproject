@@ -36,7 +36,7 @@ public class DealDAOImpl implements DealDAO{
 
         sql.append("insert into deal(order_number,buyer_number,seller_number,p_number, ");
         sql.append(" p_count,price,visittime, buy_type) ");
-        sql.append(" values(deal_order_number_seq.nextval,1,3,?,?,?,TO_DATE(?,'YYYY-MM-DD\"T\"HH24:MI:SS'),?) ");
+        sql.append(" values(deal_order_number_seq.nextval,1,4,?,?,?,TO_DATE(?,'YYYY-MM-DD\"T\"HH24:MI:SS'),?) ");
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -45,7 +45,7 @@ public class DealDAOImpl implements DealDAO{
             public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
                 PreparedStatement pstmt = con.prepareStatement(sql.toString(),new String[]{"order_number"});
 //                pstmt.setLong(1,deal.getBuyerNumber());
-//                pstmt.setLong(2,deal.getSellerNumber());
+//                pstmt.setLong(1,deal.getSellerNumber());
                 pstmt.setLong(1,deal.getPNumber());
                 pstmt.setLong(2,deal.getPCount());
                 pstmt.setLong(3,deal.getPrice());
@@ -103,7 +103,7 @@ public class DealDAOImpl implements DealDAO{
     public Optional<Deal> findByOrderNumber(Long orderNumber) {
         StringBuffer sql = new StringBuffer();
 
-        sql.append(" select d.order_number, m.mem_location,d.p_count, p.p_name, d.price, d.visittime,d.orderdate,m.mem_nickname, p.p_number ");
+        sql.append(" select d.order_number, m.mem_store_location,d.p_count, p.p_name, d.price, d.visittime,d.orderdate,m.mem_nickname, p.p_number ");
         sql.append(" from member m, deal d, product_info p ");
         sql.append(" where m.mem_number = p.owner_number ");
         sql.append("  and p.p_number = d.p_number ");

@@ -4,7 +4,6 @@ package com.team3;
 import com.team3.great.common.ApiResponse;
 import com.team3.great.deal.dao.Deal;
 import com.team3.great.deal.svc.DealSVC;
-import com.team3.great.product.svc.ProductSVC;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class ApiDealController {
 
     private final DealSVC dealSVC;
-    private final ProductSVC productSVC;
 
 
     //구매 취소

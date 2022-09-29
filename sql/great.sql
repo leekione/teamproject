@@ -28,6 +28,7 @@ mem_icon VARCHAR2(100),
 mem_admin VARCHAR2(20)
 );
 
+
 alter table member add constraint member_mem_number_pk primary key (mem_number);
  
 create table product_info(
@@ -206,9 +207,12 @@ insert into deal values (deal_order_number_seq.nextval, 2, 3,0002,1,'5000',sysda
 commit;
 --«¡∑Œ« µ•¿Ã≈Õ ª˝º∫
 insert into profile values (profile_profile_number_seq.nextval,'3',0001);
+select * from profile;
+delete From profile;
+commit;
 
 --∏Æ∫‰µ•¿Ã≈Õ ª˝º∫
-insert into review values(review_review_number_seq.nextval,'1','3','∏¿¿’æÓø‰',sysdate,'5',1);
+insert into review values(review_review_number_seq.nextval,'1','6','∏¿¿’æÓø‰',sysdate,'5',1);
 insert into review values(review_review_number_seq.nextval,'2','3','∏¿¿’æÓø‰',sysdate,'5',1);
 select * from review;
 select * from product_info; 
@@ -219,6 +223,7 @@ insert into good values (good_good_number_seq.nextval,'1',0002);
 
 --¡Ò∞‹√£±‚µ•¿Ã≈Õ ª˝º∫
 insert into bookmark values (bookmark_bookmark_number_seq.nextval,'1','1');
+rollback;
 --update product_infO
 --  set remain_count = 20
 --  where p_number = 1;
@@ -232,8 +237,16 @@ select * from deal;
 --delete from product_info;
 select * from review;     
 delete from review;
+rollback;
 select * from profile;     
+commit;
+select * from review where review_number=3;
 
+update product_info
+   set owner_number = 4
+   where p_number = 1;
+
+commit;
 select buyer_number
   from review
   where buyer_number = 1;
@@ -247,6 +260,21 @@ from review , member
 where buyer_number = mem_number
 and buyer_number = 1;
   
+  
+select * 
+from review r , member m
+where r.seller_number = m.mem_number
+and r.buyer_number = 1;
+select *
+ from (select *
+        from product_info p, member m
+       where p.owner_number = m.mem_number) t1, review r
+where r.seller_number = t1.mem_number
+and r.buyer_number = 1; 
+ 
+select * from product_info; 
+        
+        
 --delete from review;
 --rollback;
 commit;
@@ -256,6 +284,30 @@ select  *
 from product_info P, member M
 where p.owner_number = m.mem_number and p.p_number= 1;
 
+ select *
+ from( select *
+   from member m, product_info p
+   where m.mem_number = p.owner_number) t1, deal d
+      where d.p_number = t1.p_number
+     and d.buyer_number =1;
+
+select * 
+from review r, member m
+where r.seller_number = m.mem_number
+
+and r.buyer_number = 1;
+
+select *
+  from (select * from review r, member m
+          where r.seller_number = m.mem_number) t1, review r2
+ where t1.mem_number = r2.buyer_number;
+
+select *
+  from (select *
+          from member m, product_info p
+          where m.mem_number = p.owner_number) t1, review r
+          where t1.mem_number = r.buyer_number
+          and r.review_number=2;
 
 commit;
 select * 

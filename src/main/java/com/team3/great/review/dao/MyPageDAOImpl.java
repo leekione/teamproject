@@ -2,9 +2,11 @@ package com.team3.great.review.dao;
 
 
 import com.team3.great.Member;
+import com.team3.great.Product;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -18,21 +20,22 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Repository
 @RequiredArgsConstructor
-public class ReviewDAOImpl implements ReviewDAO {
+public class MyPageDAOImpl implements MyPageDAO {
 
     private final JdbcTemplate jt;
 
-    //등록
+    //리뷰 등록
     @Override
     public Review save(Review review) {
         StringBuffer sql = new StringBuffer();
 
         sql.append("insert into review(review_number,buyer_number,seller_number,content,grade,profile_number) ");
-        sql.append(" values(review_review_number_seq.nextval,?,3,?,?,1) ");
+        sql.append(" values(review_review_number_seq.nextval,?,5,?,?,1) ");
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jt.update(new PreparedStatementCreator() {
@@ -52,38 +55,25 @@ public class ReviewDAOImpl implements ReviewDAO {
         return review;
     }
 
-    //목록
-    @Override
-    public List<Review> findAll() {
-        StringBuffer sql = new StringBuffer();
-        sql.append("select mem_name, content,write_date,grade,buyer_number ");
-        sql.append(" from review , member ");
-        sql.append(" where buyer_number = mem_number ");
-        sql.append(" and buyer_number = 2 ");
-
-        List<Review>  reviews = jt.query(sql.toString(), new RowMapper<Review>() {
-            @Override
-            public Review mapRow(ResultSet rs, int rowNum) throws SQLException {
-                Member member = (new BeanPropertyRowMapper<>(Member.class)).mapRow(rs,rowNum);
-                Review review = (new BeanPropertyRowMapper<>(Review.class)).mapRow(rs,rowNum);
-                review.setMember(member);
-                return review;
-            }
-        });
-        return reviews;
-    }
-
-    //조회
+    //리뷰 조회 - 회원번호
     @Override
     public List<Review> findByMemNumber(Long memNumber) {
 
 
         StringBuffer sql = new StringBuffer();
 
+//        sql.append("select * ");
+//        sql.append(" from review r , member m  product_info p ");
+//        sql.append(" where r.seller_number = m.mem_number ");
+//        sql.append("  and r.seller_number = p.owner_number ");
+//        sql.append("  and r.buyer_number = ? ");
+
         sql.append("select * ");
-        sql.append(" from review r , member m  ");
-        sql.append(" where r.buyer_number = m.mem_number ");
-        sql.append("  and r.buyer_number = ? ");
+        sql.append("      from (select * ");
+        sql.append("              from product_info p, member m ");
+        sql.append("             where p.owner_number = m.mem_number) t1, review r ");
+        sql.append("where r.seller_number = t1.mem_number ");
+        sql.append("and r.buyer_number = ? ");
 
         List<Review> reviews = null;
 
@@ -92,8 +82,9 @@ public class ReviewDAOImpl implements ReviewDAO {
                 @Override
                 public Review mapRow(ResultSet rs, int rowNum) throws SQLException {
                     Review review = (new BeanPropertyRowMapper<>(Review.class)).mapRow(rs, rowNum);
+                    Product product =(new BeanPropertyRowMapper<>(Product.class)).mapRow(rs,rowNum);
                     Member member = (new BeanPropertyRowMapper<>(Member.class)).mapRow(rs, rowNum);
-
+                    member.setProduct(product);
                     review.setMember(member);
                     return review;
                 }
@@ -108,44 +99,54 @@ public class ReviewDAOImpl implements ReviewDAO {
     }
 
     //리뷰조회 - 리뷰번호
-
-
     @Override
-    public Review findByReviewNumber(Long reviewNumber) {
+    public Optional<Review> findByReviewNumber(Long reviewNumber) {
         StringBuffer sql = new StringBuffer();
 
         sql.append("select * ");
         sql.append("  from review r, member m ");
-        sql.append(" where r.buyer_number = mem_number ");
-        sql.append("   and review_number = ? ");
+        sql.append(" where r.buyer_number = m.mem_number ");
+        sql.append("   and r.review_number = ? ");
 
-        Review review = new Review();
+        try{
+            Review review = jt.queryForObject(sql.toString(), new RowMapper<Review>() {
+                @Override
+                public Review mapRow(ResultSet rs, int rowNum) throws SQLException {
+                    Review review = (new BeanPropertyRowMapper<>(Review.class)).mapRow(rs, rowNum);
+                    Member member = (new BeanPropertyRowMapper<>(Member.class)).mapRow(rs, rowNum);
+                    review.setMember(member);
 
-
-        return null;
+                    return review;
+                }
+            },reviewNumber);
+                return Optional.of(review);
+        }catch (EmptyResultDataAccessException e){
+            e.printStackTrace();
+        }
+        return Optional.empty();
     }
 
-    //수정
+    // 리뷰 수정
     @Override
     public int update(Long reviewNumber, Review review) {
 
         StringBuffer sql =new StringBuffer();
         sql.append("update review ");
-        sql.append(" content = ?, ");
-        sql.append(" grade  = ? ");
+        sql.append("   set content = ?, ");
+        sql.append("       grade  = ? ");
         sql.append(" where review_number= ? ");
-        sql.append(" and buyer_number= 1 ");
+        sql.append("   and buyer_number= ? ");
 
         int affectedRow  = jt.update(sql.toString(),
-                review.getContent(),review.getGrade(),reviewNumber);
+                review.getContent(),review.getGrade(),review.getReviewNumber(),review.getBuyerNumber());
         return affectedRow;
     }
 
-    //삭제
+    // 리뷰 삭제
     @Override
     public int deleteByReviewId(Long reviewNumber) {
 
-        String sql = "delete from product where review_number= ? and buyer_number =1 ";
+        String sql = "delete from review where review_number = ? ";
 
         int affectedRow= jt.update(sql.toString(),reviewNumber);
         return affectedRow;

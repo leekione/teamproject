@@ -208,9 +208,9 @@ insert into deal values (deal_order_number_seq.nextval, 2, 3,0002,1,'5000',sysda
 insert into profile values ('1','3',0001);
 
 --¸®ºäµ¥ÀÌÅÍ »ı¼º
-insert into review values('1','1','3','¸ÀÀÕ¾î¿ä',sysdate,'5',1);
-insert into review values('2','2','3','¸ÀÀÕ¾î¿ä',sysdate,'5',1);
-select * from review;
+insert into review values(review_review_number_seq.nextval,'1','3','¸ÀÀÕ¾î¿ä',sysdate,'4',1);
+insert into review values(review_review_number_seq.nextval,'2','3','¸ÀÀÕ¾î¿ä',sysdate,'5',1);
+select * from review;   
 select * from product_info; 
 
 --ÁÁ¾Æ¿äµ¥ÀÌÅÍ »ı¼º

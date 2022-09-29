@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/common/common.css">
+    <link rel="stylesheet" href="/css/common/common.css">
     <link rel="stylesheet" href="/member/css/profile.css">
     <script src="https://kit.fontawesome.com/038578f405.js" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/cb64776e64.js" crossorigin="anonymous"></script>
@@ -57,9 +58,9 @@
                     <input type="file" name="" id="imgBtn">
                
                 </section>
-                <form action="">
-                    <p><label>회원 유형</label><span>점주</span></p>
-                    <p><label>업종</label><span>한식</span></p>
+                <form action="" th:object="${form}">
+                    <p><label>회원 유형</label><span th:text="*{memType}">점주</span></p>
+                    <p><label>업종</label><span th:text="*{">한식</span></p>
                     <p><label>가게명</label><span>파스타키친</span></p>
                     <p><label>위치</label><span>울산 동구</span></p>
                     <p><label>연락처</label><span>052-1234-5678</span></p>

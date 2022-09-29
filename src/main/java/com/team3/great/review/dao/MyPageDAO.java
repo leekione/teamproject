@@ -1,6 +1,8 @@
 package com.team3.great.review.dao;
 
 
+import com.team3.great.Member;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -20,4 +22,7 @@ public interface MyPageDAO {
 
     //리뷰삭제
     int deleteByReviewId(Long reviewNumber);
+
+    //회원 조회 - 회원 번호
+    Optional<Member> findMember(Long memNumber);
 }

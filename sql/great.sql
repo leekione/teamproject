@@ -243,8 +243,8 @@ commit;
 select * from review where review_number=3;
 
 update product_info
-   set owner_number = 4
-   where p_number = 1;
+   set owner_number = 5
+   where p_number = 2;
 
 commit;
 select buyer_number
@@ -262,9 +262,13 @@ and buyer_number = 1;
   
   
 select * 
-from review r , member m
+from review r , member m, product_info p
 where r.seller_number = m.mem_number
+and r.seller_number = p.owner_number
 and r.buyer_number = 1;
+
+select * from product_info;
+
 select *
  from (select *
         from product_info p, member m
@@ -352,5 +356,7 @@ where m.mem_number = p.owner_number
 and p.p_number = d.p_number
 and d.order_number = 1;
         
+        select * from member m , product_info p
+        where m.mem_number = p.owner_number;
         
     select * from member;

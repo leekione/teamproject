@@ -1,6 +1,7 @@
 package com.team3.great.review.svc;
 
 
+import com.team3.great.Member;
 import com.team3.great.review.dao.Review;
 
 import java.util.List;
@@ -20,4 +21,7 @@ public interface MyPageSVC {
 
     //리뷰삭제
     int deleteByReviewId(Long reviewNumber);
+
+    //회원 조회
+    Optional<Member> findMember(Long memNumber);
 }

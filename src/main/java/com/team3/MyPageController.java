@@ -1,9 +1,12 @@
 package com.team3;
 
+import com.team3.great.Member;
 import com.team3.great.common.ApiResponse;
 import com.team3.great.deal.dao.Deal;
 import com.team3.great.deal.svc.DealSVC;
+import com.team3.great.product.svc.ProductSVC;
 import com.team3.great.review.dao.Review;
+import com.team3.great.review.form.ProfileForm;
 import com.team3.great.review.form.ReviewAddForm;
 import com.team3.great.review.form.ReviewInfoForm;
 import com.team3.great.review.form.ReviewUpdateForm;
@@ -27,7 +30,8 @@ import java.util.Optional;
 public class MyPageController {
 
     private final DealSVC dealSVC;
-    private final MyPageSVC reviewSVC;
+    private final MyPageSVC myPageSVC;
+    private final ProductSVC productSVC;
 
     //주문 내역
     @GetMapping("/{id}")
@@ -63,7 +67,7 @@ public class MyPageController {
         Review review = new Review();
         BeanUtils.copyProperties(reviewAddForm, review);
         review.setBuyerNumber(1l);
-        Review save = reviewSVC.save(review);
+        Review save = myPageSVC.save(review);
         log.info("reviewAddForm={}",reviewAddForm);
 
         Long buyerNumber = save.getBuyerNumber();
@@ -77,7 +81,7 @@ public class MyPageController {
     //리뷰 목록
     @GetMapping("/review/{id}")
     public String myReview(@PathVariable("id") Long memNumber, Model model){
-        List<Review> reviews = reviewSVC.findByMemNumber(memNumber);
+        List<Review> reviews = myPageSVC.findByMemNumber(memNumber);
 
         List<Review> list = new ArrayList<>();
         reviews.stream().forEach(review->{
@@ -93,7 +97,7 @@ public class MyPageController {
     //리뷰 수정 화면
     @GetMapping("/review/edit/{reviewNumber}")
     public String reviewEditForm(@PathVariable("reviewNumber") Long reviewNumber, Model model){
-        Optional<Review> foundReview = reviewSVC.findByReviewNumber(reviewNumber);
+        Optional<Review> foundReview = myPageSVC.findByReviewNumber(reviewNumber);
         ReviewUpdateForm reviewUpdateForm = new ReviewUpdateForm();
         BeanUtils.copyProperties(foundReview.get(),reviewUpdateForm);
         log.info("foundReview={}",foundReview);
@@ -118,13 +122,13 @@ public class MyPageController {
 
 //        log.info("review={}",review);
 
-        Optional<Review> foundReview = reviewSVC.findByReviewNumber(reviewNumber);
+        Optional<Review> foundReview = myPageSVC.findByReviewNumber(reviewNumber);
 //        BeanUtils.copyProperties(foundReview,review);
         Review review1 = foundReview.get();
         Long buyerNumber = review1.getBuyerNumber();
 //        log.info("review={}",review);
 
-        reviewSVC.update(reviewNumber, review);
+        myPageSVC.update(reviewNumber, review);
 
         redirectAttributes.addAttribute("id",buyerNumber);
 
@@ -137,12 +141,28 @@ public class MyPageController {
     @ResponseBody
     @DeleteMapping("/review/del/{reviewNumber}")
     public ApiResponse<Review> reviewDel(@PathVariable("reviewNumber") Long reviewNumber){
-        reviewSVC.deleteByReviewId(reviewNumber);
+        myPageSVC.deleteByReviewId(reviewNumber);
 
 
         return ApiResponse.createApiResMsg("00","삭제성공",null);
     }
 
+    // 프로필 화면
+    @GetMapping("/profile/{memNumber}")
+    public String profileForm(@PathVariable("memNumber") Long memNumber, Model model){
 
+        ProfileForm profileForm = new ProfileForm();
+
+        Optional<Member> member = myPageSVC.findMember(memNumber);
+        Member member1 = member.get();
+        BeanUtils.copyProperties(member1,profileForm);
+
+        model.addAttribute("form",profileForm);
+
+
+
+        return "member/profile";
+
+    }
 
 }

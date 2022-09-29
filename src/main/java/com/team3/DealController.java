@@ -50,6 +50,7 @@ public class DealController {
         Product findedProduct = productSVC.findByProductNum(pNumber);
 //        BeanUtils.copyProperties(findedProduct,addForm);
         BeanUtils.copyProperties(addForm, deal);
+        deal.setSellerNumber(findedProduct.getMember().getMemNumber());
 //        deal.setSellerNumber(addForm.getSellerNumber());
         dealSVC.add(deal);
 

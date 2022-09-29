@@ -151,4 +151,19 @@ public class MyPageDAOImpl implements MyPageDAO {
         int affectedRow= jt.update(sql.toString(),reviewNumber);
         return affectedRow;
     }
+
+    //회원 조회
+    @Override
+    public Optional<Member> findMember(Long memNumber) {
+        String sql = "select * from member where mem_number = ? ";
+
+        try {
+          Member member = jt.queryForObject(sql.toString(), new BeanPropertyRowMapper<>(Member.class),memNumber);
+          return Optional.of(member);
+        }catch(EmptyResultDataAccessException e){
+            e.printStackTrace();
+        }
+
+        return Optional.empty();
+    }
 }

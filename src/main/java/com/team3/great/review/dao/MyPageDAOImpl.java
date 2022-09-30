@@ -55,18 +55,18 @@ public class MyPageDAOImpl implements MyPageDAO {
         return review;
     }
 
-    //리뷰 조회 - 회원번호
+    //리뷰 조회 - 회원번호(내리뷰에서 보이는 리뷰)
     @Override
     public List<Review> findByMemNumber(Long memNumber) {
 
 
         StringBuffer sql = new StringBuffer();
-
-//        sql.append("select * ");
-//        sql.append(" from review r , member m  product_info p ");
-//        sql.append(" where r.seller_number = m.mem_number ");
-//        sql.append("  and r.seller_number = p.owner_number ");
-//        sql.append("  and r.buyer_number = ? ");
+        //리뷰 조회 - 판매자 프로필에서 보이는 리뷰
+//        select *
+//                from review r , member m,  product_info p
+//        where r.buyer_number = m.mem_number
+//        and r.seller_number = p.owner_number
+//        and r.buyer_number = 1;
 
         sql.append("select * ");
         sql.append("      from (select * ");

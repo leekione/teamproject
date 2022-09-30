@@ -82,8 +82,16 @@
           <div class="buy-choice">
             <h3>결제 방식</h3>
             <div class="buy-content" >
+                <th:block th:if="*{paymentOption}=='온라인 결제'">
                 <input type="radio" name="buyType" id="online" value="0 "checked /><label for="online">온라인 결제</label>
-                <input type="radio" name="buyType" id="offline" value="1" /><label for="offline">현장 결제</label>
+                </th:block>
+                <th:block th:if="*{paymentOption}=='현장 결제'">
+                <input type="radio" name="buyType" id="offline" value="1" checked /><label for="offline">현장 결제</label>
+                </th:block>
+                <th:block th:if="*{paymentOption}=='온라인 결제 & 현장 결제'">
+                    <input type="radio" name="buyType" id="online" value="0 "checked /><label for="online">온라인 결제</label>
+                    <input type="radio" name="buyType" id="offline" value="1" /><label for="offline">현장 결제</label>
+                </th:block>
               <div class="buy-online">
                   <label for="">카드사</label>
                   <select name="" id="" class="sel-card">

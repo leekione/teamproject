@@ -14,6 +14,9 @@ public interface MyPageDAO {
     //리뷰조회 - 회원번호
     List<Review> findByMemNumber(Long memNumber);
 
+    //리뷰조회 - 프로필에서 조회
+    List<Review> findByBuyerNumber(Long memNumber);
+
     //리뷰조회 - 리뷰번호
     Optional<Review> findByReviewNumber(Long reviewNumber);
 
@@ -25,4 +28,10 @@ public interface MyPageDAO {
 
     //회원 조회 - 회원 번호
     Optional<Member> findMember(Long memNumber);
+
+    //즐겨찾기 추가
+    Bookmark addBookmark(Bookmark bookmark);
+
+    //즐겨찾기 회원 조회
+    List<Bookmark> findBookmark(Long memNumber);
 }

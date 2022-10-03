@@ -1,11 +1,12 @@
     <!DOCTYPE html>
-    <html lang="ko">
+    <html lang="ko"
+          xmlns:th="http://www.thymeleaf.org">
     <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/common/common.css" />
-    <link rel="stylesheet" href="/member/css/bookmark.css">
+    <link rel="stylesheet" href="/css/common/common.css" />
+    <link rel="stylesheet" href="/css/mypage/bookmark.css">
     <script src="https://kit.fontawesome.com/038578f405.js" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/cb64776e64.js" crossorigin="anonymous"></script>
 
@@ -51,20 +52,24 @@
                 <ul>
                     <li class="aside-content-menu">
                         <h3>
-                            <a href="myReview.html">내 리뷰</a></li>
+                            <a href="myReview.html">내 리뷰</a>
                         </h3>
+                    </li>
                     <li class="aside-content-menu">
                         <h3>
-                            <a href="order-history.html">주문내역</a></li>
+                            <a href="order-history.html">주문내역</a>
                         </h3>
+                    </li>
                     <li class="aside-content-menu">
                         <h3>
-                            <a href="bookmark.html">즐겨찾기</a></li>
+                            <a href="bookmark.html">즐겨찾기</a>
                         </h3>
+                    </li>
                     <li class="aside-content-menu">
                         <h3>
-                            <a href="good.html">좋아요</a></li>
+                            <a href="good.html">좋아요</a>
                         </h3>
+                    </li>
                     </ul>
                 </aside>
             
@@ -75,68 +80,17 @@
                         <h2>즐겨찾기</h2>
                     </div>
                 </div>
-                <div class="bookmark-content">
-                    <div class="bookmark-on">
+                <div class="bookmark-content" >
+                    <div class="bookmark-on" th:each="bookmark: ${list}">
                         <div class="item front">
-                            <img class="profile__image" src="/member/img/img__profile.png" alt="어피치">
-                            <div class="shopNm">파스타키친</div>
+                            <img class="profile__image" src="/css/img/img__profile.png" alt="어피치">
+                            <div class="shopNm" th:text="${bookmark.member.memStoreName}">파스타키친</div>
                         </div>
                         <div class="item back">
-                            <div>정말 맛있는 파스타 맛집!</div>
+                            <div th:text="${bookmark.member.memStoreIntroduce}">정말 맛있는 파스타 맛집!</div>
                         </div>
                         <i class="starIcon far fa-star fas"></i>
                     </div>
-                    <div class="bookmark-on">
-                        <div class="item front">
-                        <img class="profile__image" src="/member/img/img__profile.png" alt="어피치">
-                            <div class="shopNm">파스타키친</div>
-                        </div>
-                        <div class="item back">
-                            <div>가게설명</div>
-                        </div>
-                        <i class="starIcon far fa-star fas"></i>
-                    </div>
-                    <div class="bookmark-on">
-                        <div class="item front">
-                        <img class="profile__image" src="/member/img/img__profile.png" alt="어피치">
-                            <div class="shopNm">파스타키친</div>
-                        </div>
-                        <div class="item back">
-                            <div>가게설명</div>
-                        </div>
-                        <i class="starIcon far fa-star fas"></i>
-                    </div>
-                    <div class="bookmark-on">
-                        <div class="item front">
-                        <img class="profile__image" src="/member/img/img__profile.png" alt="어피치">
-                            <div class="shopNm">파스타키친</div>
-                        </div>
-                        <div class="item back">
-                            <div>가게설명</div>
-                        </div>
-                        <i class="starIcon far fa-star fas"></i>
-                    </div>
-                    <div class="bookmark-on">
-                        <div class="item front">
-                        <img class="profile__image" src="/member/img/img__profile.png" alt="어피치">
-                            <div class="shopNm">파스타키친</div>
-                        </div>
-                        <div class="item back">
-                            <div>가게설명</div>
-                        </div>
-                        <i class="starIcon far fa-star fas"></i>
-                    </div>
-                    <div class="bookmark-on">
-                        <div class="item front">
-                        <img class="profile__image" src="/member/img/img__profile.png" alt="어피치">
-                            <div class="shopNm">파스타키친</div>
-                        </div>
-                        <div class="item back">
-                            <div>가게설명</div>
-                        </div>
-                        <i class="starIcon far fa-star fas"></i>
-                    </div>
-
 
                 </div>        
                 <ul class="btn-page">

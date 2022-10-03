@@ -5,11 +5,9 @@ import com.team3.great.common.ApiResponse;
 import com.team3.great.deal.dao.Deal;
 import com.team3.great.deal.svc.DealSVC;
 import com.team3.great.product.svc.ProductSVC;
+import com.team3.great.review.dao.Bookmark;
 import com.team3.great.review.dao.Review;
-import com.team3.great.review.form.ProfileForm;
-import com.team3.great.review.form.ReviewAddForm;
-import com.team3.great.review.form.ReviewInfoForm;
-import com.team3.great.review.form.ReviewUpdateForm;
+import com.team3.great.review.form.*;
 import com.team3.great.review.svc.MyPageSVC;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -46,7 +44,7 @@ public class MyPageController {
         log.info("list={}",list);
         model.addAttribute("list",list);
 
-        return "member/order-history";
+        return "mypage/order-history";
     }
 
     //리뷰 등록 양식
@@ -58,7 +56,7 @@ public class MyPageController {
         reviewAddForm.setBuyerNumber(1l);
         log.info("reviewAddForm={}",reviewAddForm);
         model.addAttribute("form",reviewAddForm);
-        return "member/reviewAdd";
+        return "mypage/reviewAdd";
     }
 
     //리뷰 등록 처리
@@ -91,7 +89,7 @@ public class MyPageController {
         log.info("list={}",list);
         model.addAttribute("list",list);
 
-        return "member/myReview";
+        return "mypage/myReview";
     }
 
     //리뷰 수정 화면
@@ -105,7 +103,7 @@ public class MyPageController {
 
         model.addAttribute("form",reviewUpdateForm);
 
-        return "member/reviewEdit";
+        return "mypage/reviewEdit";
     }
 
     //리뷰 수정 처리
@@ -155,14 +153,60 @@ public class MyPageController {
 
         Optional<Member> member = myPageSVC.findMember(memNumber);
         Member member1 = member.get();
+
+        List<Review> reviews = myPageSVC.findByBuyerNumber(memNumber);
+
+        List<Review> list = new ArrayList<>();
+        reviews.stream().forEach(review -> {
+            BeanUtils.copyProperties(review, profileForm);
+            list.add(review);
+        });
+
         BeanUtils.copyProperties(member1,profileForm);
 
+        model.addAttribute("list",list);
         model.addAttribute("form",profileForm);
+        log.info("profileForm={}",profileForm);
+        log.info("list={}",list);
 
-
-
-        return "member/profile";
-
+        return "mypage/profile";
     }
+
+    //즐겨찾기 처리
+    @PostMapping("/profile/{memNumber}")
+    public String bookmark(@PathVariable("memNumber") Long memNumber, BookmarkForm bookmarkForm, Model model){
+
+        Bookmark bookmark = new Bookmark();
+        bookmark.setBuyerNumber(1l);
+        bookmark.setSellerNumber(5l);
+
+        myPageSVC.addBookmark(bookmark);
+
+        model.addAttribute("form",bookmarkForm);
+        return "redirect:/mypage/profile/{memNumber}";
+    }
+    
+    //즐겨찾기 양식
+    @GetMapping("/{memNumber}/bookmark")
+    public String bookmarkForm(@PathVariable("memNumber") Long memNumber, Model model){
+        
+        BookmarkForm bookmarkForm = new BookmarkForm();
+
+        List<Bookmark> bookmarks = myPageSVC.findBookmark(memNumber);
+
+        List<Bookmark> list = new ArrayList<>();
+        bookmarks.stream().forEach(bookmark ->  {
+            BeanUtils.copyProperties(bookmark,bookmarkForm);
+            log.info("bookmarkForm={}",bookmarkForm);
+            list.add(bookmark);
+        });
+
+        model.addAttribute("list",list);
+        log.info("list={}",list);
+        
+        return "mypage/bookmark";
+        
+    }
+
 
 }

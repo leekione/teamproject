@@ -34,8 +34,8 @@ public class MyPageDAOImpl implements MyPageDAO {
     public Review save(Review review) {
         StringBuffer sql = new StringBuffer();
 
-        sql.append("insert into review(review_number,buyer_number,seller_number,content,grade,profile_number) ");
-        sql.append(" values(review_review_number_seq.nextval,?,5,?,?,1) ");
+        sql.append("insert into review(review_number,buyer_number,seller_number,content,grade) ");
+        sql.append(" values(review_review_number_seq.nextval,?,5,?,?) ");
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jt.update(new PreparedStatementCreator() {
@@ -59,14 +59,8 @@ public class MyPageDAOImpl implements MyPageDAO {
     @Override
     public List<Review> findByMemNumber(Long memNumber) {
 
-
         StringBuffer sql = new StringBuffer();
-        //리뷰 조회 - 판매자 프로필에서 보이는 리뷰
-//        select *
-//                from review r , member m,  product_info p
-//        where r.buyer_number = m.mem_number
-//        and r.seller_number = p.owner_number
-//        and r.buyer_number = 1;
+
 
         sql.append("select * ");
         sql.append("      from (select * ");
@@ -95,8 +89,44 @@ public class MyPageDAOImpl implements MyPageDAO {
 
         return reviews;
 
+    }
+
+    //리뷰 조회 - 판매자 프로필에서 보이는 리뷰
+
+    @Override
+    public List<Review> findByBuyerNumber(Long memNumber) {
+
+        StringBuffer sql = new StringBuffer();
+
+        sql.append("select * ");
+        sql.append("from review r , member m,  product_info p ");
+        sql.append("where r.buyer_number = m.mem_number ");
+        sql.append("and r.seller_number = p.owner_number ");
+        sql.append("and r.seller_number = ? ");
+
+        List<Review> reviews = null;
+
+        try {
+            reviews = jt.query(sql.toString(), new RowMapper<Review>() {
+                @Override
+                public Review mapRow(ResultSet rs, int rowNum) throws SQLException {
+                    Review review = (new BeanPropertyRowMapper<>(Review.class)).mapRow(rs, rowNum);
+                    Product product =(new BeanPropertyRowMapper<>(Product.class)).mapRow(rs,rowNum);
+                    Member member = (new BeanPropertyRowMapper<>(Member.class)).mapRow(rs, rowNum);
+                    member.setProduct(product);
+                    review.setMember(member);
+                    return review;
+                }
+            }, memNumber);
+        } catch (DataAccessException e) {
+            log.info("회원번호가 없습니다");
+        }
+
+        return reviews;
 
     }
+
+
 
     //리뷰조회 - 리뷰번호
     @Override
@@ -166,4 +196,59 @@ public class MyPageDAOImpl implements MyPageDAO {
 
         return Optional.empty();
     }
+
+    //즐겨찾기 추가
+    @Override
+    public Bookmark addBookmark(Bookmark bookmark) {
+        StringBuffer sql = new StringBuffer();
+        sql.append(" insert into bookmark (bookmark_number, buyer_number, seller_number) ");
+        sql.append(" values(bookmark_bookmark_number_seq.nextval, ?, ? ) ");
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        jt.update(new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                PreparedStatement pstmt = con.prepareStatement(sql.toString(),new String[]{"bookmark_number"});
+                pstmt.setLong(1,bookmark.getBuyerNumber());
+                pstmt.setLong(2,bookmark.getSellerNumber());
+
+                return pstmt;
+            }
+        },keyHolder);
+
+        Long bookmark_number = Long.valueOf(keyHolder.getKeys().get("bookmark_number").toString());
+
+        bookmark.setBookmarkNumber(bookmark_number);
+
+        return bookmark;
+    }
+
+    //즐겨찾기 회원 조회
+    @Override
+    public List<Bookmark> findBookmark(Long memNumber) {
+        StringBuffer sql = new StringBuffer();
+        sql.append(" select * from bookmark b, member m ");
+        sql.append(" where b.seller_number = m.mem_number and b.buyer_number = ? ");
+
+        List<Bookmark> bookmarks = null;
+        try{
+            bookmarks = jt.query(sql.toString(), new RowMapper<Bookmark>() {
+                @Override
+                public Bookmark mapRow(ResultSet rs, int rowNum) throws SQLException {
+                    Bookmark bookmark = (new BeanPropertyRowMapper<>(Bookmark.class)).mapRow(rs,rowNum);
+                    Member member = (new BeanPropertyRowMapper<>(Member.class)).mapRow(rs,rowNum);
+
+                    bookmark.setMember(member);
+                    return bookmark;
+                }
+            },memNumber);
+
+        }catch (DataAccessException e) {
+            log.info("찾을수 없습니다");
+        }
+    return  bookmarks;
+
+    }
+
 }

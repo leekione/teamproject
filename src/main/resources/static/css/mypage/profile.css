@@ -161,6 +161,11 @@
     visibility: hidden;
 }
 
+.star {
+    color: var(--main-color-yel);
+    font-size:25px;
+}
+
 
 
 

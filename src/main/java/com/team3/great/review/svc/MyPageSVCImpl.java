@@ -1,8 +1,9 @@
 package com.team3.great.review.svc;
 
 import com.team3.great.Member;
-import com.team3.great.review.dao.Review;
+import com.team3.great.review.dao.Bookmark;
 import com.team3.great.review.dao.MyPageDAO;
+import com.team3.great.review.dao.Review;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,14 @@ public class MyPageSVCImpl implements MyPageSVC {
         return myPageDAO.findByReviewNumber(reviewNumber);
     }
 
+    //리뷰조회 - 프로필에서 조회
+
+
+    @Override
+    public List<Review> findByBuyerNumber(Long memNumber) {
+        return myPageDAO.findByBuyerNumber(memNumber);
+    }
+
     //리뷰 수정
     @Override
     public int update(Long reviewNumber, Review review) {
@@ -53,5 +62,19 @@ public class MyPageSVCImpl implements MyPageSVC {
     @Override
     public Optional<Member> findMember(Long memNumber) {
         return myPageDAO.findMember(memNumber);
+    }
+
+    //즐겨찾기 추가
+
+
+    @Override
+    public Bookmark addBookmark(Bookmark bookmark) {
+        return myPageDAO.addBookmark(bookmark);
+    }
+
+    //즐겨찾기 회원 조회
+    @Override
+    public List<Bookmark> findBookmark(Long memNumber) {
+        return myPageDAO.findBookmark(memNumber);
     }
 }

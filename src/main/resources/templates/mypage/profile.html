@@ -48,25 +48,31 @@
         </header>
         <!-- //header -->
 
-        <main class="main main-profile">
+        <main class="main main-profile" th:object="${form}">
             <div>어피치님의 프로필</div>
             <section class="profile">
                 <section class="user__profile">
                     <img class="profile__image" src="/css/img/img__profile.png" alt="어피치">
-                    <div class="profile__name">어피치</div>
+                    <div><span class="profile__name" th:text="*{memNickname}">어피치</span>
+                        <th:block>
+                        <i id="starIcon" class="starIcon far fa-star"></i>
+                        </th:block>
+                    </div>
+
                     <button class="imageBtn">이미지변경</button>
                     <input type="file" name="" id="imgBtn">
 
                 </section>
-                <form action="" method="post" th:object="${form}">
+                <form action="" >
                     <p><label>회원 유형</label><span th:text="*{memType}">점주</span></p>
                     <p><label>업종</label><span>한식</span></p>
-                    <p><label>가게명</label><span name="memStoreName"  th:text="*{memStoreName}">파스타키친</span></p>
+                    <p><label>가게명</label><span id="memStoreName" name="memStoreName"  th:text="*{memStoreName}">파스타키친</span></p>
+                    <p><input type="hidden" id="memNumber" name="memNumber"  th:field="*{memNumber}"></input></p>
                     <p><label>위치</label><span th:text="*{memStoreLocation}">울산 동구</span></p>
                     <p><label>연락처</label><span th:text="*{memStorePhonenumber}">052-1234-5678</span></p>
                     <p><label>e-mail</label><span th:text="*{memEmail}">homedo@naver.com</span></p>
                     <p><label>SNS</label><a href="http://www.naver.com" target="blank">http://www.naver.com </a></p>
-                    <p><label>가게 소개</label><span name="memStoreIntroduce" >파스타 맛있는 가게</span></p>
+                    <p><label>가게 소개</label><span id="memStoreIntroduce" name="memStoreIntroduce" th:text="*{memStoreIntroduce}" >파스타 맛있는 가게</span></p>
                     <p><label>평점</label>
                         <i class="fa-solid fa-star"></i>
                         <i class="fa-solid fa-star"></i>
@@ -74,7 +80,7 @@
                         <i class="fa-solid fa-star"></i>
                         <i class="fa-regular fa-star"></i>
                     </p>
-                    <button>즐겨찾기</button>
+
                 </form>
             </section>
             </main>
@@ -154,9 +160,72 @@
             $image = document.querySelector('.profile__img');
             $imageBtn.addEventListener('click',()=>{
                 imgBtn.click();
-  
+
                 console.log('클릭')
-            })
+            });
+
+            //전역변수
+            const form ={
+                memStoreName:document.getElementById('memStoreName'),
+                memStoreIntroduce:document.getElementById('memStoreIntroduce'),
+                memNumber:document.getElementById('memNumber')
+            }
+
+            //데이터 가져오기
+            function getInputData(){
+                const memStoreName = form.memStoreName.textContent;
+                const memStoreIntroduce = form.memStoreIntroduce.textContent;
+
+                return {memStoreName, memStoreIntroduce};
+            }
+
+            const icons = document.querySelector('.starIcon');
+
+            //버튼 클릭시
+            icons.addEventListener('click',e=>{
+                e.preventDefault;
+                if(icons.className == 'starIcon far fa-star'){
+                    icons.classList.add('fas');
+                    const bookmark = getInputData();
+                    bookmarkAdd(form.memNumber.value,bookmark);
+
+                }else{
+                    icons.classList.remove('fas');
+                    bookmarkDel(form.memNumber.value);
+                }
+
+            });
+
+            //즐겨찾기 추가
+            function bookmarkAdd(memNumber,bookmark){
+                const url = `http://localhost:9081/mypage/profile/${memNumber}`;
+                fetch( url, {
+                    method:'POST',
+                    headers: {
+                        'Content-Type':'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(bookmark)
+                    }).then(res=>res.json())
+                      .then(data=>console.log(data))
+                      .catch(err=console.log(err));
+                  }
+
+            //즐겨 찾기 삭제
+            function bookmarkDel(memNumber){
+                const url = `http://localhost:9081/mypage/profile/del/${memNumber}`;
+                fetch(url, {
+                    method:'DELETE',
+                    headers: {
+                        'Accept':'application/json'
+                        },
+                    }).then(res=>res.json())
+                      .then(data=>console.log(data))
+                      .catch(err=>console.log(err));
+                      }
+
+
+
 
         </script>
 </body>

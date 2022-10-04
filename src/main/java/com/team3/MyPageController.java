@@ -172,24 +172,10 @@ public class MyPageController {
         return "mypage/profile";
     }
 
-    //즐겨찾기 처리
-    @PostMapping("/profile/{memNumber}")
-    public String bookmark(@PathVariable("memNumber") Long memNumber, BookmarkForm bookmarkForm, Model model){
-
-        Bookmark bookmark = new Bookmark();
-        bookmark.setBuyerNumber(1l);
-        bookmark.setSellerNumber(5l);
-
-        myPageSVC.addBookmark(bookmark);
-
-        model.addAttribute("form",bookmarkForm);
-        return "redirect:/mypage/profile/{memNumber}";
-    }
-    
     //즐겨찾기 양식
     @GetMapping("/{memNumber}/bookmark")
     public String bookmarkForm(@PathVariable("memNumber") Long memNumber, Model model){
-        
+
         BookmarkForm bookmarkForm = new BookmarkForm();
 
         List<Bookmark> bookmarks = myPageSVC.findBookmark(memNumber);
@@ -203,10 +189,53 @@ public class MyPageController {
 
         model.addAttribute("list",list);
         log.info("list={}",list);
-        
+
         return "mypage/bookmark";
-        
+
     }
+
+//즐겨찾기 처리
+@ResponseBody
+@PostMapping("/profile/{memNumber}")
+public ApiResponse<Bookmark> bookmark( @PathVariable("memNumber") Long memNumber,@RequestBody BookmarkForm bookmarkForm, Model model){
+
+    Bookmark bookmark = new Bookmark();
+
+    Optional<Member> member = myPageSVC.findMember(memNumber);
+    Member member1 = member.get();
+
+    bookmark.setBuyerNumber(1l);
+    bookmark.setSellerNumber(member1.getMemNumber());
+
+    myPageSVC.addBookmark(bookmark);
+
+    model.addAttribute("form",bookmarkForm);
+    return ApiResponse.createApiResMsg("00","성공",bookmark);
+}
+
+//프로필에서 삭제
+@ResponseBody
+@DeleteMapping("/profile/del/{memNumber}")
+    public  ApiResponse<Bookmark> delBookmark(@PathVariable("memNumber") Long memNumber){
+    Optional<Member> member = myPageSVC.findMember(memNumber);
+    Member foundMember = member.get();
+    myPageSVC.delBookmark(foundMember.getMemNumber());
+
+    return ApiResponse.createApiResMsg("00","성공",null);
+
+}
+//내 즐겨찾기에서 삭제
+@ResponseBody
+@DeleteMapping("/del/{bookmarkNumber}")
+    public ApiResponse<Bookmark> delBookmarkInMyPage(@PathVariable("bookmarkNumber") Long bookmarkNumber){
+    Optional<Bookmark> foundBookmark = myPageSVC.findBookmarkNumber(bookmarkNumber);
+    myPageSVC.delBookmarkInMyPage(foundBookmark.get().getBookmarkNumber());
+
+    return ApiResponse.createApiResMsg("00","성공",null);
+
+}
+
+
 
 
 }

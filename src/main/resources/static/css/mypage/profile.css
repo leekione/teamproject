@@ -165,6 +165,10 @@
     color: var(--main-color-yel);
     font-size:25px;
 }
+#starIcon {
+    margin-left: 5px;
+    font-size:23px;
+}
 
 
 

@@ -1,6 +1,7 @@
 package com.team3.great.review.form;
 
 import com.team3.great.Product;
+import com.team3.great.review.dao.Bookmark;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -26,4 +27,5 @@ public class ProfileForm {
     private LocalDateTime memLockExpiration;    //date
     private String memAdmin;                    //varchar2(3)
     private Product product;
+    private Bookmark bookmark;
 }

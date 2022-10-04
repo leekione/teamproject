@@ -77,4 +77,23 @@ public class MyPageSVCImpl implements MyPageSVC {
     public List<Bookmark> findBookmark(Long memNumber) {
         return myPageDAO.findBookmark(memNumber);
     }
+
+    //즐겨찾기 번호 조회
+    @Override
+    public Optional<Bookmark> findBookmarkNumber(Long bookmarkNumber) {
+        return myPageDAO.findBookmarkNumber(bookmarkNumber);
+    }
+
+    //즐겨찾기 삭제 - 프로필에서 삭제
+    @Override
+    public int delBookmark(Long memNumber) {
+        return myPageDAO.delBookmark(memNumber);
+    }
+
+    //즐겨찾기 삭제 - 내 즐겨찾기에서 삭제
+
+    @Override
+    public int delBookmarkInMyPage(Long bookmarkNumber) {
+        return myPageDAO.delBookmarkInMyPage(bookmarkNumber);
+    }
 }

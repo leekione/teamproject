@@ -251,4 +251,40 @@ public class MyPageDAOImpl implements MyPageDAO {
 
     }
 
+    //즐겨찾기 조회
+    @Override
+    public Optional<Bookmark> findBookmarkNumber(Long bookmarkNumber) {
+
+        String sql = " select * from bookmark where bookmark_number = ? ";
+
+        try{
+            Bookmark bookmark = jt.queryForObject(sql.toString(), new BeanPropertyRowMapper<>(Bookmark.class),bookmarkNumber);
+                return Optional.of(bookmark);
+            }catch(EmptyResultDataAccessException e){
+            e.printStackTrace();
+        }
+
+        return Optional.empty();
+    }
+
+    //즐겨찾기 삭제 - 프로필에서
+    @Override
+    public int delBookmark(Long memNumber) {
+
+        String sql = "delete from bookmark where seller_number = ? ";
+
+        int affectedRow = jt.update(sql.toString(),memNumber);
+        return affectedRow;
+    }
+
+
+    //즐겨찾기 삭제 - 내 즐겨찾기에서
+
+    @Override
+    public int delBookmarkInMyPage(Long bookmarkNumber) {
+        String sql = "delete from bookmark where bookmark_number = ? ";
+
+        int affectedRow = jt.update(sql.toString(),bookmarkNumber);
+        return affectedRow;
+    }
 }

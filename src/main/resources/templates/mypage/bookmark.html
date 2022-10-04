@@ -81,15 +81,16 @@
                     </div>
                 </div>
                 <div class="bookmark-content" >
-                    <div class="bookmark-on" th:each="bookmark: ${list}">
-                        <div class="item front">
-                            <img class="profile__image" src="/css/img/img__profile.png" alt="어피치">
-                            <div class="shopNm" th:text="${bookmark.member.memStoreName}">파스타키친</div>
-                        </div>
-                        <div class="item back">
-                            <div th:text="${bookmark.member.memStoreIntroduce}">정말 맛있는 파스타 맛집!</div>
-                        </div>
-                        <i class="starIcon far fa-star fas"></i>
+                    <div class="bookmark-on" th:each="bookmark: ${list}" th:data-bookmark-id="${bookmark.bookmarkNumber}">
+                            <div class="item front">
+                                <img class="profile__image" src="/css/img/img__profile.png" alt="어피치">
+                                <div class="shopNm" th:text="${bookmark.member.memStoreName}">파스타키친</div>
+<!--                                <input type="button"  th:text="${bookmark.bookmarkNumber}"></input>-->
+                            </div>
+                            <div class="item back">
+                                <div th:text="${bookmark.member.memStoreIntroduce}">정말 맛있는 파스타 맛집!</div>
+                            </div>
+                            <i class="starIcon far fa-star fas"></i>
                     </div>
 
                 </div>        
@@ -139,24 +140,30 @@
     </div>
 
     <script>
-        const icons = document.querySelectorAll('.starIcon');
-        const $bookmark = document.querySelectorAll('.bookmark-on');
 
+            const icons = document.querySelectorAll('.starIcon');
 
-        icons.forEach((item,idx)=>{
-            icons[idx].addEventListener('click',()=>{
-                icons[idx].classList.toggle('fas');
-            })
-        })
-       
-
-            window.addEventListener('load',()=>{
             icons.forEach((item,idx)=>{
-                if(icons[idx].className!=='starIcon far fa-star fas'){
-                    $bookmark[idx].remove();
-                    }
+                icons[idx].addEventListener('click',e=>{
+                    icons[idx].classList.toggle('fas');
+                    let id = e.target.parentElement.dataset.bookmarkId;
+                    let bookmarkNumber = parseInt(id);
+                    console.log('클릭');
+                    bookmarkDelInMyPage(bookmarkNumber);
                 })
             });
+
+            function bookmarkDelInMyPage(bookmarkNumber){
+                const url = `http://localhost:9081/mypage/del/${bookmarkNumber}`;
+                fetch(url, {
+                    method:'DELETE',
+                    headers: {
+                        'Accept':'application/json'
+                        },
+                    }).then(res=>res.json())
+                      .then(data=>console.log(data))
+                      .catch(err=>console.log(err));
+            }
         
     </script>
     </body>

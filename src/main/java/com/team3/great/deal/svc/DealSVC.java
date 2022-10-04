@@ -27,4 +27,7 @@ public interface DealSVC {
 
     //구매 취소시 상품갯수 증가
 //    int delUpdate(Long pNumber,Deal deal);
+
+    //남은수량 0개 일시
+    int updatePstatus(Long pNumber);
 }

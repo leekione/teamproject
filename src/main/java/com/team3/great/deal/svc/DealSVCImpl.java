@@ -2,6 +2,7 @@ package com.team3.great.deal.svc;
 
 import com.team3.great.deal.dao.Deal;
 import com.team3.great.deal.dao.DealDAO;
+import com.team3.great.product.dao.ProductDAO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import java.util.Optional;
 public class DealSVCImpl implements DealSVC{
 
     private final DealDAO dealDAO;
+    private final ProductDAO productDAO;
     // 구매등록
     @Override
     public Deal add(Deal deal) {
@@ -57,5 +59,11 @@ public class DealSVCImpl implements DealSVC{
         int affectedRow = dealDAO.deleteByOrderNumber(orderNumber);
         return affectedRow;
                 
+    }
+    //남은수량 0개 일시
+
+    @Override
+    public int updatePstatus(Long pNumber) {
+        return dealDAO.updatePstatus(pNumber);
     }
 }

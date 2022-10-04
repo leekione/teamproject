@@ -24,5 +24,7 @@ public interface DealDAO {
 
     //구매 목록
 
+    //남은수량 0개 일시
+    int updatePstatus(Long pNumber);
 
 }

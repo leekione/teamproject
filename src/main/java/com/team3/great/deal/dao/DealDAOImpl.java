@@ -137,8 +137,6 @@ public class DealDAOImpl implements DealDAO{
         sql.append("  set remain_count = remain_count - ? ");
         sql.append(" where p_number = ? ");
 
-
-
         //Deal deal = jt.queryForObject(sql.toString(),new BeanPropertyRowMapper<>(Deal.class));
         //log.info("deal={}",deal);
         int affectedRow = jt.update(sql.toString(),deal.getPCount(),pNumber);
@@ -146,6 +144,7 @@ public class DealDAOImpl implements DealDAO{
         return affectedRow;
     }
 
+    //취소시 수량 변경
     @Override
     public int delUpdate(Long pNumber, Deal deal) {
         StringBuffer sql = new StringBuffer();
@@ -157,12 +156,27 @@ public class DealDAOImpl implements DealDAO{
         return affectedRow;
     }
 
+    //주문 취소
     @Override
     public int deleteByOrderNumber(Long orderNumber) {
         String sql =" delete from deal where order_number = ? ";
 
         int affectedRow = jt.update(sql.toString(), orderNumber);
 
+        return affectedRow;
+    }
+
+    //남은수량 0개 일시
+
+    @Override
+    public int updatePstatus(Long pNumber) {
+        StringBuffer sql = new StringBuffer();
+
+        sql.append(" update product_info ");
+        sql.append(" set p_status = 1 ");
+        sql.append(" where p_number = ? ");
+
+        int affectedRow = jt.update(sql.toString(), pNumber);
         return affectedRow;
     }
 }

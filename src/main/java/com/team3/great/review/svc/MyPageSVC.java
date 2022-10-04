@@ -35,4 +35,13 @@ public interface MyPageSVC {
 
     //즐겨찾기 회원 조회
     List<Bookmark> findBookmark(Long memNumber);
+
+    //즐겨찾기 조회
+    Optional<Bookmark> findBookmarkNumber(Long bookmarkNumber);
+
+    //즐겨찾기 삭제 - 프로필에서 삭제
+    int delBookmark(Long memNumber);
+
+    //즐겨찾기 삭제 - 내 즐겨찾기에서 삭제
+    int delBookmarkInMyPage(Long bookmarkNumber);
 }

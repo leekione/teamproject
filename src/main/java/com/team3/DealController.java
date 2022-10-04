@@ -48,21 +48,16 @@ public class DealController {
             @ModelAttribute("form") AddForm addForm, RedirectAttributes redirectAttributes){
         Deal deal = new Deal();
         Product findedProduct = productSVC.findByProductNum(pNumber);
-//        BeanUtils.copyProperties(findedProduct,addForm);
         BeanUtils.copyProperties(addForm, deal);
         deal.setSellerNumber(findedProduct.getMember().getMemNumber());
-//        deal.setSellerNumber(addForm.getSellerNumber());
-        dealSVC.add(deal);
-
-
-
+            dealSVC.add(deal);
         BeanUtils.copyProperties(findedProduct.getPNumber(),addForm);
+            dealSVC.update(pNumber, deal);
 
-        dealSVC.update(pNumber, deal);
+//        dealSVC.update(pNumber, deal);
         Optional<Deal> byOrderNumber = dealSVC.findByOrderNumber(deal.getOrderNumber());
         Deal deal1 = byOrderNumber.get();
         Long orderNumber = deal1.getOrderNumber();
-
 
         log.info("addForm={}",addForm);
 
@@ -83,7 +78,13 @@ public class DealController {
         if(!byOrderNumber.isEmpty()){
             BeanUtils.copyProperties(byOrderNumber.get(),infoForm);
             BeanUtils.copyProperties(byProductNum,infoForm);
+        }
 
+        //남은수량 0개 일시
+        if (byProductNum.getRemainCount() == 0) {
+            dealSVC.updatePstatus(pNumber);
+
+            log.info("byProductNum={}", byProductNum);
 
         }
 
